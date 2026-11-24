@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050914">
+<title>SMILX MUSIC — Distribuidora musical</title>
+<link id="favicon" rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/favicon.png">
+<style>
+:root{
+ --blue:#168bff;--blue2:#0756c9;--bg:#050914;--panel:#0c1628;
+ --panel2:#101f35;--line:#1b3b63;--white:#fff;--muted:#9aabc4;
+ --green:#35d68a;--yellow:#f4c66a;--red:#ff647c;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;min-height:100vh;color:var(--white);font-family:Inter,Arial,sans-serif;
+ background:radial-gradient(ellipse at 50% -15%,#12366b 0,transparent 48%),#050914;
+}
+body:before{
+ content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+ background:url("smilx-logo.svg") center 55%/min(76vw,760px) auto no-repeat;
+ opacity:.045;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{
+ height:76px;display:flex;align-items:center;justify-content:space-between;
+ padding:0 25px;background:rgba(4,9,19,.94);border-bottom:1px solid #17477d;
+ position:sticky;top:0;z-index:20;backdrop-filter:blur(16px);
+ box-shadow:0 8px 28px #0005;
+}
+.brand{display:flex;align-items:center;gap:13px;min-width:0}
+.brand-logo{
+ width:52px;height:52px;border-radius:12px;object-fit:contain;padding:3px;
+ border:1px solid #288fff;box-shadow:0 0 22px #087cff55;background:#071326;
+}
+.logo{font-size:21px;font-weight:950;letter-spacing:2.5px;color:#fff}
+.logo span{color:#42a5ff}
+.header-right{display:flex;align-items:center;gap:12px}
+.user-chip{font-size:12px;color:#b9cce6;background:#0c1a2d;border:1px solid #1c416d;padding:9px 12px;border-radius:30px}
+.primary,.secondary{
+ border-radius:9px;padding:12px 16px;font-weight:750;transition:.2s
+}
+.primary{background:linear-gradient(135deg,#168bff,#0756c9);color:#fff;border:1px solid #329aff;box-shadow:0 5px 18px #087cff35}
+.primary:hover{transform:translateY(-1px);box-shadow:0 8px 25px #087cff66}
+.secondary{background:#101e32;color:#e8f3ff;border:1px solid #29496e}
+.secondary:hover{border-color:#168bff}
+button:disabled{opacity:.5;cursor:not-allowed}
+.layout{display:flex;min-height:calc(100vh - 76px)}
+aside{
+ width:248px;flex-shrink:0;padding:20px 13px;background:rgba(5,11,22,.96);
+ border-right:1px solid #17365c;
+}
+.side-label{font-size:10px;color:#6684a9;letter-spacing:1.8px;font-weight:800;padding:8px 13px 12px}
+nav button{
+ display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+ padding:13px 14px;margin:4px 0;border:1px solid transparent;border-radius:9px;
+ background:transparent;color:#a9bad1;font-size:13px;font-weight:650;transition:.2s
+}
+nav button .nav-icon{width:21px;text-align:center;color:#66b5ff;font-size:17px}
+nav button:hover,nav button.active{
+ color:#fff;background:linear-gradient(90deg,#0b2e59,#0b1a30);
+ border-color:#174b83;box-shadow:inset 3px 0 #168bff,0 5px 18px #0003
+}
+main{flex:1;min-width:0;max-width:1600px;padding:30px clamp(17px,3vw,42px);margin:0 auto}
+h1{font-size:clamp(23px,3vw,30px);margin:0 0 8px;letter-spacing:-.5px}
+h2{font-size:19px;margin:0 0 10px;color:#e8f3ff}
+h3{font-size:15px}
+.muted{color:var(--muted);font-size:13px;line-height:1.55}
+.eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#55aaff;font-weight:850;margin-bottom:9px}
+.section{display:none;animation:fade .22s ease}
+.section.active{display:block}
+@keyframes fade{from{opacity:.45;transform:translateY(5px)}to{opacity:1;transform:none}}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:15px;margin:25px 0}
+.card,.panel,.step-panel,.social-card{
+ background:linear-gradient(145deg,rgba(16,31,53,.96),rgba(8,16,29,.98));
+ border:1px solid var(--line);border-radius:14px;padding:20px;
+ box-shadow:0 10px 28px #0003;
+}
+.card{position:relative;overflow:hidden;color:#c6d8ef;font-size:13px}
+.card:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-35px;top:-40px;background:#168bff12}
+.metric{font-size:29px;color:#55adff;font-weight:850;margin-top:13px;text-shadow:0 0 18px #087cff55}
+.metric-label{font-size:11px;color:#7893b5;margin-top:4px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field.full{grid-column:1/-1}
+label{font-size:12px;color:#c6d7ec}
+input,select,textarea{
+ width:100%;background:#060d19;color:#fff;border:1px solid #254365;
+ padding:12px 13px;border-radius:8px;outline:none;min-width:0
+}
+input:focus,select:focus,textarea:focus{border-color:#168bff;box-shadow:0 0 0 3px #168bff1c}
+input[type=checkbox]{width:auto;accent-color:#168bff}
+textarea{min-height:95px;resize:vertical}
+.notice{padding:13px 15px;background:#0b203b;border:1px solid #1b548d;border-radius:9px;color:#c5e2ff;margin:15px 0;font-size:12px;line-height:1.55}
+.status{display:inline-block;padding:6px 10px;border-radius:30px;font-size:10px;font-weight:800;background:#17283d;color:#cbdcf0}
+.status.published{background:#103b2d;color:#8df0bd}
+.status.pending{background:#172f4b;color:#9dceff}
+.status.rejected{background:#421b2b;color:#ff9aaa}
+.status.draft{background:#202b3a;color:#cbd4df}
+.status.available{background:#103b2d;color:#8df0bd}
+.action-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.action-row button{padding:8px 10px;font-size:11px}
+.split-form,.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:15px}
+.stat-box{background:#081321;border:1px solid #203e62;border-radius:10px;padding:16px}
+.stat-box strong{display:block;color:#65baff;font-size:24px;margin-top:8px}
+.small-note{font-size:11px;color:#8da5c4;line-height:1.5}
+.empty{text-align:center;padding:45px 15px;background:#0a1424;border:1px dashed #315174;border-radius:12px;color:#a7bad3}
+.empty-icon{font-size:38px;color:#55adff;margin-bottom:12px}
+#login{
+ width:min(430px,calc(100% - 30px));margin:75px auto;padding:30px;
+ background:linear-gradient(145deg,#101f35,#080f1d);border:1px solid #1c4d80;
+ border-radius:18px;box-shadow:0 20px 65px #0009;position:relative;overflow:hidden
+}
+#login:before{content:"";position:absolute;width:230px;height:230px;right:-130px;top:-130px;background:#168bff20;border-radius:50%}
+.login-brand{display:flex;align-items:center;gap:12px;margin-bottom:25px}
+.login-brand img{width:58px;height:58px;object-fit:contain;padding:3px;border-radius:12px;border:1px solid #268fff;background:#071326}
+.login-brand strong{letter-spacing:2px}
+#login input{margin:8px 0 16px}
+#app{display:none}
+#logout{display:none}
+.upload-heading{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.upload-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px;margin:23px 0}
+.step-card{
+ background:#0b1628;border:1px solid #203e62;border-radius:12px;min-height:112px;
+ padding:14px 9px;color:white;text-align:center;transition:.2s
+}
+.step-card:hover{border-color:var(--blue);transform:translateY(-2px)}
+.step-card.active{background:linear-gradient(145deg,#103d70,#0b1c32);border-color:#168bff;box-shadow:0 0 20px #087cff25}
+.step-icon{width:39px;height:39px;border-radius:11px;background:#0b2b50;display:grid;place-items:center;margin:0 auto 9px;color:#66baff;font-size:20px}
+.step-card strong{display:block;font-size:12px}
+.step-card small{display:block;color:#8fa7c5;margin-top:5px;font-size:10px}
+.step-panel{display:none;padding:22px}
+.step-panel.active{display:block}
+.step-panel h2{margin-top:0}
+.step-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:18px}
+.step-actions{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.upload-box{border:1px dashed #3476b5;background:#071222;border-radius:12px;padding:22px;text-align:center}
+.upload-box .big-icon{font-size:34px;color:#55adff;margin-bottom:10px}
+.upload-box input{margin-top:12px}
+.cover-preview-large{width:145px;height:145px;object-fit:cover;border-radius:12px;border:2px solid #28517b;display:none;margin:15px auto}
+.release-preview{display:flex;align-items:center;gap:16px;padding:15px;background:#081321;border:1px solid #203e62;border-radius:12px;margin-top:17px}
+.release-preview img,.release-preview .placeholder{width:88px;height:88px;object-fit:cover;border-radius:9px;background:#17263a;flex-shrink:0}
+.release-preview .placeholder{display:grid;place-items:center;color:#6abaff;font-size:30px}
+.platforms{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;background:#07111f;padding:15px;border-radius:10px}
+.platforms label{display:flex;gap:9px;align-items:center;padding:11px;background:#101e32;border:1px solid #203e62;border-radius:8px}
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:20px}
+.release-card{background:#0c1728;border:1px solid #203e62;border-radius:13px;overflow:hidden;transition:.2s}
+.release-card:hover{border-color:#168bff;transform:translateY(-3px)}
+.release-card img{width:100%;aspect-ratio:1;object-fit:cover;background:#17263a;display:block}
+.release-card-body{padding:15px}
+.release-card-title{font-weight:800;font-size:15px;overflow-wrap:anywhere}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{text-align:left;padding:13px;border-bottom:1px solid #20344e;font-size:12px}
+th{color:#69baff}
+.social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:13px;margin-top:20px}
+.social-card{padding:16px;display:flex;flex-direction:column;gap:9px}
+.social-card-top{display:flex;align-items:center;gap:10px}
+.social-symbol{width:38px;height:38px;border-radius:10px;background:#0b2b50;color:#65baff;display:grid;place-items:center;font-weight:900}
+.social-card strong{font-size:13px}
+.social-card input{font-size:12px}
+.social-note,.social-status{font-size:12px;color:#9aabc4}
+.social-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}
+.preview{width:110px;height:110px;object-fit:cover;border-radius:10px;border:1px solid #315174}
+
+/* Planes SMILX MUSIC */
+.pricing-section{margin-top:28px}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:15px;margin:18px 0}
+.pricing-card{position:relative;background:linear-gradient(155deg,#102744,#081322);border:1px solid #24496f;border-radius:15px;padding:21px;display:flex;flex-direction:column;min-height:310px;box-shadow:0 12px 30px #0004}
+.pricing-card.featured{border-color:#168bff;box-shadow:0 0 0 1px #168bff55,0 14px 34px #087cff22}
+.pricing-card h3{font-size:17px;margin:0 0 8px;color:#fff}
+.pricing-price{font-size:30px;font-weight:900;color:#63b6ff;margin:9px 0 3px}
+.pricing-price small{font-size:12px;color:#9aabc4;font-weight:600}
+.pricing-sub{font-size:12px;color:#9aabc4;min-height:34px}
+.pricing-card ul{list-style:none;padding:0;margin:15px 0 20px;display:grid;gap:10px;color:#c5d7ed;font-size:12px;line-height:1.4}
+.pricing-card li:before{content:'✓';color:#48d99a;font-weight:900;margin-right:8px}
+.pricing-card .primary{margin-top:auto;width:100%}
+.pricing-footnote{font-size:11px;color:#8da5c4;line-height:1.55}
+
+@media(max-width:800px){
+ .layout{display:block}
+ aside{width:100%;padding:8px 9px;border-right:0;border-bottom:1px solid #17365c}
+ .side-label{display:none}
+ nav{display:flex;overflow-x:auto;gap:4px}
+ nav button{white-space:nowrap;width:auto;flex-shrink:0;padding:11px 12px;font-size:12px}
+ nav button .nav-icon{width:auto}
+ main{padding:20px 14px}
+ header{padding:0 12px;height:68px}
+ .brand-logo{width:43px;height:43px}
+ .logo{font-size:16px;letter-spacing:1.5px}
+ .user-chip{display:none}
+ .step-fields{grid-template-columns:1fr}
+ .step-panel{padding:16px}
+ body:before{background-size:95vw auto}
+}
+
+#paymentGate{display:none;max-width:560px;margin:7vh auto;padding:28px;background:linear-gradient(155deg,#102744,#081322);border:1px solid #24496f;border-radius:18px;box-shadow:0 18px 50px #0006}
+#paymentGate h2{margin:0 0 10px;color:#fff}
+#paymentGate .gate-price{font-size:30px;font-weight:800;color:#55adff;margin:14px 0}
+#paymentGate .gate-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+#paymentGate .gate-note{padding:13px;border:1px solid #6b5524;background:#33280f;border-radius:10px;color:#f4d58b;font-size:13px;line-height:1.5}
+
+
+#publicWelcome{max-width:1250px;margin:35px auto;padding:0 24px 50px}
+.public-welcome-head{text-align:center;margin:22px auto 28px;max-width:760px}
+.public-welcome-head h1{font-size:clamp(27px,4vw,42px);margin:10px 0}
+#publicPlans .pricing-section{margin-top:0}
+#publicPlans .pricing-footnote{max-width:900px;margin:20px auto}
+#login{display:none}
+
+
+/* Chat flotante estilo soporte musical */
+.smilx-chat-widget{position:fixed;right:22px;bottom:22px;z-index:9999;font-family:inherit}
+.smilx-chat-toggle{width:66px;height:66px;border:0;border-radius:50%;background:linear-gradient(145deg,#168bff,#0752a5);color:#fff;box-shadow:0 8px 28px #0008;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer}
+.smilx-chat-toggle span{font-size:25px;line-height:1.1}.smilx-chat-toggle i{font-size:10px;font-style:normal;font-weight:800}
+.smilx-chat-panel{position:absolute;right:0;bottom:78px;width:min(365px,calc(100vw - 28px));height:490px;max-height:calc(100vh - 125px);background:#0b1728;border:1px solid #28517b;border-radius:17px;box-shadow:0 18px 55px #000b;overflow:hidden;display:flex;flex-direction:column}
+.smilx-chat-panel[hidden]{display:none}
+.smilx-chat-header{display:flex;align-items:center;gap:11px;padding:14px;background:linear-gradient(110deg,#123c69,#0c2039);border-bottom:1px solid #24496f;color:white}
+.smilx-chat-avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#168bff;font-weight:900}.smilx-chat-header div:nth-child(2){display:flex;flex-direction:column;gap:3px;flex:1}.smilx-chat-header small{font-size:10px;color:#a9c9e9}.smilx-chat-header>button{background:transparent;border:0;color:white;font-size:25px;cursor:pointer}
+.smilx-chat-messages{padding:14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;flex:1;background:radial-gradient(ellipse at top,#112743,#081321 70%)}
+.smilx-chat-bubble{max-width:88%;padding:11px 13px;border-radius:13px;font-size:12px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.smilx-chat-bubble.bot{align-self:flex-start;background:#172b43;border:1px solid #294766;color:#e3efff;border-bottom-left-radius:4px}.smilx-chat-bubble.user{align-self:flex-end;background:#075eaa;color:#fff;border-bottom-right-radius:4px}.smilx-chat-bubble small{display:block;opacity:.65;font-size:9px;margin-top:5px}
+.smilx-chat-actions{padding:8px 12px 0;background:#0b1728}.smilx-chat-actions button{width:100%;border:1px solid #327fc2;background:#102c49;color:#bfe0ff;border-radius:9px;padding:8px;font-size:11px;font-weight:800;cursor:pointer}
+.smilx-chat-compose{display:flex;gap:8px;padding:10px 12px 13px;background:#0b1728}.smilx-chat-compose input{flex:1;min-width:0;border:1px solid #294766;border-radius:20px;background:#071321;color:#fff;padding:11px 13px;font-size:12px}.smilx-chat-compose button{width:40px;height:40px;border:0;border-radius:50%;background:#168bff;color:white;font-size:18px;cursor:pointer}
+@media(max-width:480px){.smilx-chat-widget{right:14px;bottom:14px}.smilx-chat-panel{height:min(490px,calc(100vh - 105px));bottom:76px}.smilx-chat-toggle{width:60px;height:60px}}
+
+
+/* Panel administrativo de SMILX MUSIC */
+.admin-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:16px 0}
+.admin-artists-table{min-width:760px}
+.admin-artists-table td{vertical-align:middle}
+.admin-artists-table .status{white-space:nowrap}
+#adminArtistsSection{scroll-margin-top:95px}
+#adminSupportSection{scroll-margin-top:95px}
+.admin-support-list{display:grid;gap:14px;margin-top:14px}
+.admin-support-card{border:1px solid var(--line,#303746);border-radius:14px;padding:16px;background:rgba(255,255,255,.025)}
+.admin-support-meta{color:var(--muted,#aab2c0);font-size:13px;line-height:1.7;margin:10px 0}
+.admin-support-thread{display:grid;gap:8px;margin:12px 0;padding:12px;border-radius:10px;background:rgba(0,0,0,.16)}
+.admin-support-message{padding:10px 12px;border-radius:10px;max-width:92%;white-space:pre-wrap;overflow-wrap:anywhere;background:rgba(255,255,255,.07)}
+.admin-support-message.support{margin-left:auto;background:rgba(56,132,255,.16)}
+.admin-support-message small{display:block;opacity:.7;margin-top:5px;font-size:11px}
+.admin-support-card textarea{width:100%;min-height:86px;margin:8px 0;padding:11px;border-radius:9px}
+.admin-support-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+.admin-artist-details{border:1px solid #29496e;border-radius:14px;padding:18px;background:linear-gradient(145deg,#101f35,#080f1d)}
+.admin-artist-details h3{margin:0 0 12px;color:#65baff}
+.admin-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:12px 0}
+.admin-detail-item{background:#0b1728;border:1px solid #29496e;border-radius:10px;padding:11px;font-size:12px;overflow-wrap:anywhere}
+.admin-detail-item span{display:block;color:#91a7c2;font-size:10px;margin-bottom:5px}
+.admin-artist-details pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;background:#071321;border:1px solid #29496e;padding:12px;border-radius:9px;font-size:11px;color:#c8d9ee}
+.admin-detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.admin-artist-details select{max-width:260px}
+.admin-artists-table button{white-space:nowrap}
+.admin-release-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:16px}
+.admin-release-card{background:linear-gradient(145deg,#101f35,#080f1d);border:1px solid #29496e;border-radius:14px;padding:15px;min-width:0}
+.admin-release-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;background:#071321;max-height:260px}
+.admin-release-card h3{margin:10px 0 4px;color:#65baff}
+.admin-release-card audio{width:100%;margin:10px 0}
+.admin-release-meta{font-size:12px;color:#9aabc4;line-height:1.6;overflow-wrap:anywhere}
+.admin-release-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.admin-release-actions button{flex:1;min-width:100px}
+/* Panel administrativo inicial: acceso por rol verificado en Supabase */
+#adminPanel{display:none;max-width:1180px;margin:28px auto;padding:0 20px 40px}
+.admin-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin:22px 0}
+.admin-tile{background:linear-gradient(145deg,#101f35,#080f1d);border:1px solid #29496e;border-radius:14px;padding:20px}
+.admin-tile strong{display:block;color:#65baff;font-size:15px;margin-bottom:8px}
+.admin-tile p{color:#9aabc4;font-size:12px;line-height:1.55;margin:0}
+.admin-status{display:inline-block;padding:6px 10px;border-radius:30px;background:#103b2d;color:#8df0bd;font-size:11px;font-weight:800}
+
+#adminWithdrawalsSection,#adminRoyaltiesSection{scroll-margin-top:95px}
+.admin-royalty-note{border:1px solid #6b5527;background:linear-gradient(145deg,#241d0d,#101827);border-radius:12px;padding:15px;color:#f3dfaa;margin:14px 0}
+.admin-royalty-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:16px 0}
+.admin-royalty-card{background:#0b1728;border:1px solid #29496e;border-radius:12px;padding:14px}
+.admin-royalty-card strong{display:block;color:#d9b45b;font-size:20px;margin:6px 0}
+.admin-withdrawal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:16px}
+.admin-withdrawal-card{background:linear-gradient(145deg,#101f35,#080f1d);border:1px solid #29496e;border-radius:14px;padding:16px;min-width:0}
+.admin-withdrawal-card h3{margin:0 0 8px;color:#65baff;overflow-wrap:anywhere}
+.admin-withdrawal-meta{font-size:12px;line-height:1.7;color:#b8c8dc;overflow-wrap:anywhere}
+.admin-withdrawal-card textarea{width:100%;min-height:68px;margin-top:12px;background:#071321;color:#fff;border:1px solid #294766;border-radius:9px;padding:10px;resize:vertical}
+.admin-withdrawal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.admin-withdrawal-actions button{flex:1;min-width:100px}
+
+
+.smilx-stream-chart{display:flex;align-items:flex-end;gap:12px;min-height:220px;overflow-x:auto;padding:18px 12px 8px;border:1px solid #29496e;border-radius:12px;background:#081426;margin:12px 0 20px}
+.smilx-stream-bar-wrap{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-width:64px;flex:1;min-height:190px;gap:7px}
+.smilx-stream-value{font-size:11px;color:#d9b45b;white-space:nowrap}
+.smilx-stream-bar{width:min(42px,80%);min-height:4px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,#d9b45b,#8c6825);box-shadow:0 0 14px #d9b45b22}
+.smilx-stream-label{font-size:11px;color:#aab9cc;white-space:nowrap}
+
+
+.genre-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:9px;margin-top:8px}.genre-choices label{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--border,#30384a);border-radius:10px;background:rgba(255,255,255,.035);cursor:pointer;font-size:14px}.genre-choices input{accent-color:#d6ad55;width:16px;height:16px}.genre-choices label:has(input:checked){border-color:#d6ad55;background:rgba(214,173,85,.12)}#releaseSubgenres{min-height:150px} .paypal-heading{display:flex;align-items:center;gap:12px;margin-bottom:14px}.paypal-mark{display:inline-flex;align-items:center;justify-content:center;padding:8px 14px;border-radius:9px;background:#fff;color:#003087;font-weight:900;font-size:19px;letter-spacing:-1px;box-shadow:0 2px 8px #0002}.paypal-heading p{margin:0;color:var(--muted,#9aa3b2);font-size:13px}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand">
+  <img class="brand-logo" src="smilx-logo.svg" alt="Logo SMILX MUSIC" onerror="this.style.display='none'">
+  <div class="logo">SMILX <span>MUSIC</span></div>
+ </div>
+ <div class="header-right">
+  <span class="user-chip" id="headerEmail">SMILX MUSIC</span>
+  <button class="primary" id="openSignupBtn" type="button">Crear cuenta</button>
+  <button class="secondary" id="openLoginBtn" type="button">Iniciar sesión</button>
+  <button class="secondary" id="logout">Cerrar sesión</button>
+ </div>
+</header>
+
+<div id="publicWelcome"><div class="public-welcome-head"><div class="eyebrow">CRECE CON SMILX MUSIC</div><h1>Distribuye tu música. Construye tu legado.</h1><p class="muted">Elige el plan que mejor se adapte a tu proyecto musical o equipo de artistas.</p><div class="action-row" style="justify-content:center"><button class="primary" type="button" id="heroSignupBtn">Crear cuenta</button><button class="secondary" type="button" id="heroLoginBtn">Iniciar sesión</button></div></div><div id="publicPlans"></div></div>
+
+<div id="login" style="display:none">
+ <div class="login-brand">
+  <img src="smilx-logo.svg" alt="SMILX MUSIC" onerror="this.style.display='none'">
+  <div><strong>SMILX MUSIC</strong><div class="muted">Tu música. Tu legado.</div></div>
+ </div>
+ <h1>Bienvenido a <span style="color:#55adff">SMILX</span></h1>
+ <p class="muted">Inicia sesión para entrar a tu distribuidora musical.</p>
+ <label for="email">Correo electrónico</label>
+ <input id="email" type="email" placeholder="correo@email.com" autocomplete="username">
+ <label for="password">Contraseña</label>
+ <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password">
+ <button class="primary" style="width:100%" id="loginBtn">Iniciar sesión</button>
+ <p id="loginMessage" class="muted" role="status"></p>
+ <p class="small-note"><button class="secondary" type="button" id="backToWelcomeFromLogin">Volver a los planes</button> <button class="secondary" type="button" id="switchToSignup">Crear cuenta</button></p>
+</div>
+
+<div id="signup" style="display:none;width:min(480px,calc(100% - 30px));margin:45px auto;padding:28px;background:linear-gradient(145deg,#101f35,#080f1d);border:1px solid #1c4d80;border-radius:18px;box-shadow:0 20px 65px #0009">
+ <div class="login-brand"><img src="smilx-logo.svg" alt="SMILX MUSIC" onerror="this.style.display='none'"><div><strong>SMILX MUSIC</strong><div class="muted">Crea tu cuenta de artista</div></div></div>
+ <h1>Crear cuenta</h1><p class="muted">Regístrate para comenzar con tu proyecto musical.</p>
+ <label for="signupName">Nombre del artista o sello</label><input id="signupName" type="text" placeholder="Nombre artístico o sello" autocomplete="organization">
+ <label for="signupEmail">Correo electrónico</label><input id="signupEmail" type="email" placeholder="correo@email.com" autocomplete="email">
+ <label for="signupPassword">Contraseña</label><input id="signupPassword" type="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+ <label for="signupPasswordConfirm">Confirmar contraseña</label><input id="signupPasswordConfirm" type="password" placeholder="Repite tu contraseña" autocomplete="new-password">
+ <label for="signupPlan">Plan que deseas</label><select id="signupPlan"><option value="Free">Free — US$0</option><option value="Basic">Basic — US$19.90</option><option value="Label">Label — US$59</option><option value="Label Pro">Label Pro — US$89</option></select>
+ <button class="primary" style="width:100%;margin-top:16px" id="signupBtn" type="button">Crear mi cuenta</button>
+ <p id="signupMessage" class="muted" role="status"></p>
+ <p class="small-note"><button class="secondary" type="button" id="backToWelcomeFromSignup">Volver a los planes</button> <button class="secondary" type="button" id="switchToLogin">Ya tengo cuenta</button></p>
+</div>
+
+<div id="paymentGate" role="status" aria-live="polite">
+ <div class="eyebrow">ACTIVACIÓN DE SUSCRIPCIÓN</div>
+ <h2>Tu plan requiere pago</h2>
+ <p class="muted" id="gateDescription">Tu cuenta no puede entrar al panel hasta que se confirme el pago.</p>
+ <div class="gate-price" id="gatePrice">—</div>
+ <div class="gate-note"><strong>Acceso pendiente.</strong> El panel permanecerá bloqueado hasta que SMILX MUSIC confirme el pago. La conexión de cobro automático todavía está en preparación; no introduzcas datos bancarios en esta pantalla.</div>
+ <div class="gate-actions"><button class="secondary" id="gateLogout" type="button">Cerrar sesión</button></div>
+</div>
+
+
+<div id="adminPanel" aria-live="polite">
+ <div class="admin-top">
+  <div><div class="eyebrow">SMILX MUSIC · CONTROL INTERNO</div><h1>Panel administrativo</h1><p class="muted">Acceso autorizado por el rol de tu cuenta.</p></div>
+  <span class="admin-status" id="adminRoleBadge">Acceso administrativo</span>
+ </div>
+ <div class="panel"><h2>Bienvenido al centro de administración</h2><p class="muted">La sesión fue reconocida como propietario. Desde este panel puedes administrar artistas, consultar sus cuentas, cambiar planes y suspender o reactivar accesos.</p></div>
+ <div class="admin-grid">
+  <div class="admin-tile"><strong>Artistas y cuentas</strong><p>Consultar artistas registrados, correo, plan y estado de cuenta.</p><div class="action-row"><button class="primary" id="adminOpenArtists" type="button">Abrir artistas</button></div></div>
+  <div class="admin-tile"><strong>Revisión de lanzamientos</strong><p>Revisar canciones, portadas, créditos y metadatos enviados por los artistas.</p><div class="action-row"><button class="primary" id="adminOpenReleases" type="button">Abrir lanzamientos</button></div></div>
+  <div class="admin-tile"><strong>Solicitudes de retiro</strong><p>Consultar solicitudes, revisar datos de pago y aprobar, rechazar o registrar pagos realizados.</p><div class="action-row"><button class="primary" id="adminOpenWithdrawals" type="button">Abrir retiros</button></div></div>
+  <div class="admin-tile"><strong>Control de regalías</strong><p>Importar reportes oficiales CSV, validar filas y consultar el historial contable de regalías.</p><div class="action-row"><button class="primary" id="adminOpenRoyalties" type="button">Abrir regalías</button></div></div>
+  <div class="admin-tile"><strong>Soporte</strong><p>Ver solicitudes, leer conversaciones, responder a artistas y cerrar o reabrir tickets.</p><div class="action-row"><button class="primary" id="adminOpenSupport" type="button">Abrir soporte</button></div></div>
+ </div>
+ <section class="panel" id="adminArtistsSection" style="margin-top:18px">
+  <div class="admin-toolbar">
+   <div><div class="eyebrow">GESTIÓN DE CUENTAS</div><h2>Artistas registrados</h2><p class="muted">Abre cada cuenta para consultar sus datos, cambiar el plan y administrar el acceso.</p></div>
+   <button class="secondary" id="adminRefreshArtists" type="button">↻ Actualizar</button>
+  </div>
+  <div class="admin-stats"><div class="stat-box"><span class="small-note">Cuentas registradas</span><strong id="adminArtistCount">—</strong></div><div class="stat-box"><span class="small-note">Planes de pago activos</span><strong id="adminPaidCount">—</strong></div></div>
+  <div class="field" style="margin:16px 0"><label for="adminArtistSearch">Buscar por artista o correo</label><input id="adminArtistSearch" type="search" placeholder="Escribe un nombre o correo..."></div>
+  <p class="small-note" id="adminArtistsMessage" role="status">Pulsa “Actualizar” para consultar las cuentas.</p>
+  <div class="table-wrap"><table class="admin-artists-table"><thead><tr><th>Artista / sello</th><th>Correo</th><th>Plan</th><th>Estado</th><th>Registro</th><th>Acciones</th></tr></thead><tbody id="adminArtistsRows"><tr><td colspan="6">Aún no se han consultado las cuentas.</td></tr></tbody></table></div>
+  <div id="adminArtistDetails" class="admin-artist-details" style="display:none;margin-top:18px"></div>
+ </section>
+ <section class="panel" id="adminReleasesSection" style="margin-top:18px;scroll-margin-top:95px">
+  <div class="admin-toolbar"><div><div class="eyebrow">CONTROL DE CATÁLOGO</div><h2>Revisión de lanzamientos</h2><p class="muted">Escucha el audio, revisa la portada y los metadatos. Aprobar aquí solo cambia el estado interno; no distribuye la música a tiendas.</p></div><button class="secondary" id="adminRefreshReleases" type="button">↻ Actualizar</button></div>
+  <div class="admin-stats"><div class="stat-box"><span class="small-note">Total recibidos</span><strong id="adminReleaseCount">—</strong></div><div class="stat-box"><span class="small-note">Pendientes de revisión</span><strong id="adminPendingReleaseCount">—</strong></div></div>
+  <p class="small-note" id="adminReleasesMessage" role="status">Pulsa “Actualizar” para consultar los lanzamientos.</p>
+  <div id="adminReleasesList" class="admin-release-grid"><div class="empty">Aún no se han consultado los lanzamientos.</div></div>
+ </section>
+ <section class="panel" id="adminWithdrawalsSection" style="margin-top:18px;scroll-margin-top:95px">
+  <div class="admin-toolbar"><div><div class="eyebrow">PAGOS A ARTISTAS</div><h2>Solicitudes de retiro</h2><p class="muted">Verifica el saldo y los datos del artista antes de aprobar o enviar un pago. Marcar como pagado solo registra el estado en SMILX; no transfiere dinero automáticamente.</p></div><button class="secondary" id="adminRefreshWithdrawals" type="button">↻ Actualizar</button></div>
+  <div class="admin-stats"><div class="stat-box"><span class="small-note">Solicitudes recibidas</span><strong id="adminWithdrawalCount">—</strong></div><div class="stat-box"><span class="small-note">Pendientes</span><strong id="adminWithdrawalPendingCount">—</strong></div><div class="stat-box"><span class="small-note">Aprobadas</span><strong id="adminWithdrawalApprovedCount">—</strong></div><div class="stat-box"><span class="small-note">Pagadas</span><strong id="adminWithdrawalPaidCount">—</strong></div></div>
+  <p class="small-note" id="adminWithdrawalsMessage" role="status">Pulsa “Actualizar” para consultar las solicitudes.</p>
+  <div id="adminWithdrawalsList" class="admin-withdrawal-grid"><div class="empty">Aún no se han consultado las solicitudes.</div></div>
+ </section>
+ <section class="panel" id="adminRoyaltiesSection" style="margin-top:18px">
+  <div class="admin-toolbar"><div><div class="eyebrow">CONTABILIDAD DE ARTISTAS</div><h2>Control de regalías</h2><p class="muted">Panel para importar reportes oficiales y calcular importes contables por artista. Los reportes importados no crean saldo retirable por sí solos.</p></div></div>
+  <div class="admin-royalty-note"><strong>AVIDZ aún está revisando la solicitud de SMILX MUSIC.</strong><br>Mientras esperamos la API, puedes importar manualmente un archivo CSV oficial de liquidación del distribuidor. Solo se guardarán filas con correos que correspondan a cuentas existentes. La importación calcula el reparto contable, pero NO acredita el saldo de retiro ni envía pagos.</div>
+  <div class="panel" style="margin:16px 0;padding:16px;background:var(--surface,#fff)">
+   <h3>Importar reporte oficial (CSV)</h3>
+   <p class="small-note">Usa únicamente un archivo descargado del distribuidor o de una fuente oficial. Antes de importar, adapta sus columnas al formato SMILX y revisa la vista previa.</p>
+   <div class="admin-stats">
+    <div class="field"><label for="royaltyPeriodStart">Inicio del período</label><input id="royaltyPeriodStart" type="date"></div>
+    <div class="field"><label for="royaltyPeriodEnd">Fin del período</label><input id="royaltyPeriodEnd" type="date"></div>
+    <div class="field"><label for="royaltyCurrency">Moneda del archivo</label><select id="royaltyCurrency"><option value="USD">USD · Dólar estadounidense</option><option value="EUR">EUR · Euro</option><option value="GBP">GBP · Libra esterlina</option></select></div>
+   </div>
+   <div class="field" style="margin-top:12px"><label for="royaltyCsvFile">Archivo CSV del reporte</label><input id="royaltyCsvFile" type="file" accept=".csv,text/csv"></div>
+   <div class="action-row" style="margin-top:12px"><button class="secondary" id="royaltyTemplateBtn" type="button">Descargar plantilla CSV</button><button class="secondary" id="royaltyPreviewBtn" type="button">Validar y ver vista previa</button><button class="primary" id="royaltyImportBtn" type="button" disabled>Importar reporte validado</button></div>
+   <p class="small-note" id="royaltyImportMessage" role="status">Selecciona un CSV y el período correspondiente.</p>
+   <div class="table-wrap" id="royaltyPreviewWrap" style="display:none;margin-top:12px;max-height:340px;overflow:auto"><table><thead><tr><th>Correo artista</th><th>Plataforma</th><th>Lanzamiento</th><th>Streams</th><th>Neto</th><th>Moneda</th></tr></thead><tbody id="royaltyPreviewRows"></tbody></table></div>
+  </div>
+  <div class="admin-royalty-grid">
+   <div class="admin-royalty-card"><span class="small-note">Reportes importados</span><strong id="royaltyImportCount">—</strong><span class="small-note">Registros en Supabase</span></div>
+   <div class="admin-royalty-card"><span class="small-note">Filas importadas</span><strong id="royaltyRowsCount">—</strong><span class="small-note">Filas válidas guardadas</span></div>
+   <div class="admin-royalty-card"><span class="small-note">Última importación</span><strong id="royaltyLastImport">—</strong><span class="small-note">Fecha del registro</span></div>
+  </div>
+  <h3>Historial de reportes importados</h3>
+  <p class="small-note" id="royaltyHistoryMessage" role="status">Pulsa “Actualizar reportes” para consultar el historial.</p>
+  <div class="action-row"><button class="secondary" id="royaltyRefreshBtn" type="button">↻ Actualizar reportes</button></div>
+  <div class="table-wrap"><table><thead><tr><th>Archivo</th><th>Período</th><th>Filas</th><th>Neto del reporte</th><th>Estado</th><th>Fecha</th></tr></thead><tbody id="royaltyHistoryRows"><tr><td colspan="6">Todavía no se han consultado reportes.</td></tr></tbody></table></div>
+  <h3>Reglas de reparto por plan</h3>
+  <div class="table-wrap"><table><thead><tr><th>Plan</th><th>Artista</th><th>SMILX MUSIC</th></tr></thead><tbody>
+   <tr><td>Free</td><td>80%</td><td>20%</td></tr>
+   <tr><td>Basic</td><td>100%</td><td>0%</td></tr>
+   <tr><td>Label</td><td>100% para los artistas del sello</td><td>0%</td></tr>
+   <tr><td>Label Pro</td><td>100% para los artistas del sello</td><td>0%</td></tr>
+  </tbody></table></div>
+  <p class="small-note">Los porcentajes se aplican sobre regalías netas confirmadas y están sujetos a cargos de terceros, cuando correspondan. Las divisiones internas entre colaboradores se aplican según los acuerdos guardados por el artista o sello.</p>
+  <div class="notice">Importación manual habilitada: se valida el archivo, se comprueba la cuenta del artista y se registra cada movimiento con su período, moneda y fuente. Los reportes no crean saldo retirable ni envían pagos.</div>
+ </section>
+
+ <section class="panel" id="adminSupportSection" style="margin-top:18px;scroll-margin-top:95px">
+  <div class="admin-toolbar"><div><div class="eyebrow">ATENCIÓN A ARTISTAS</div><h2>Centro de soporte</h2><p class="muted">Consulta los casos enviados por artistas, revisa el historial de mensajes y responde desde aquí.</p></div><button class="secondary" id="adminRefreshSupport" type="button">↻ Actualizar</button></div>
+  <p class="small-note" id="adminSupportMessage" role="status">Pulsa “Actualizar” para consultar las solicitudes.</p>
+  <div id="adminSupportList" class="admin-support-list"><div class="empty">Aún no se han consultado las solicitudes.</div></div>
+ </section>
+ <div class="notice"><strong>Conexión de distribución pendiente.</strong><br>La entrega automática a Spotify, Apple Music y otras plataformas se activará cuando AVIDZ apruebe a SMILX MUSIC y entregue las credenciales API.</div>
+</div>
+
+<div id="app">
+<div class="layout">
+<aside>
+ <div class="side-label">MENÚ PRINCIPAL</div>
+ <nav>
+  <button class="active" data-page="inicio"><span class="nav-icon">⌂</span>Inicio</button>
+  <button data-page="planes"><span class="nav-icon">◇</span>Verificar plan / Cambiar plan</button>
+  <button data-page="subir"><span class="nav-icon">＋</span>Subir música</button>
+  <button data-page="catalogo"><span class="nav-icon">♫</span>Mi catálogo</button>
+  <button data-page="divisiones"><span class="nav-icon">％</span>Divisiones</button>
+  <button data-page="estadisticas"><span class="nav-icon">▥</span>Estadísticas</button>
+  <button data-page="perfil"><span class="nav-icon">♙</span>Perfil del artista</button>
+  <button data-page="redes"><span class="nav-icon">◎</span>Mis redes y perfiles</button>
+  <button data-page="icono"><span class="nav-icon">▣</span>Icono de la web</button>
+  <button data-page="tiendas"><span class="nav-icon">◉</span>Plataformas</button>
+  <button data-page="regalias"><span class="nav-icon">$</span>Regalías</button>
+  <button data-page="ayuda"><span class="nav-icon">?</span>Centro de ayuda</button>
+ </nav>
+ <div class="notice" style="margin-top:22px"><strong>SMILX MUSIC</strong><br>Distribución independiente para artistas.</div>
+</aside>
+<main>
+
+<section class="section active" id="inicio">
+ <div class="eyebrow">RESUMEN DE TU CUENTA</div>
+ <h1>Panel de control</h1>
+ <p class="muted">Administra tus lanzamientos y tu presencia musical desde un solo lugar.</p>
+ <div class="cards">
+  <div class="card">Mis lanzamientos<div class="metric" id="totalReleases">0</div><div class="metric-label">Total en tu catálogo</div></div>
+  <div class="card">En revisión<div class="metric" id="pendingReleases">0</div><div class="metric-label">Pendientes de revisión</div></div>
+  <div class="card">Publicados<div class="metric" id="publishedReleases">0</div><div class="metric-label">Lanzamientos publicados</div></div>
+  <div class="card">Mi plan<div class="metric" id="currentPlanLabel" style="font-size:22px">Free</div><div class="metric-label" id="currentPlanShare">80% artista · 20% SMILX MUSIC</div></div>
+ </div>
+ <div class="panel" id="homeStatsPanel" style="display:none;margin-bottom:18px"><div class="eyebrow">ESTADÍSTICAS DE TU CUENTA</div><h2>Rendimiento del catálogo</h2><div class="stat-grid" id="homeStats"></div><p class="small-note">Las reproducciones y regalías aparecerán cuando se conecten los reportes oficiales de las plataformas.</p></div>
+ <div class="panel">
+  <div class="eyebrow">TU ESTUDIO DIGITAL</div>
+  <h2>Bienvenido a SMILX MUSIC</h2>
+  <p class="muted">Prepara tus sencillos, EP y álbumes. Organiza tus portadas, audios, créditos y perfiles musicales.</p>
+  <button class="primary" onclick="showPage('subir')">＋ Subir nueva música</button>
+ </div>
+
+</section>
+
+
+<section class="section" id="planes">
+ <div class="eyebrow">TU SUSCRIPCIÓN</div><h1>Verificar plan / Cambiar plan</h1><p class="muted">Consulta tu plan actual y revisa las opciones disponibles para tu cuenta.</p>
+ <div class="panel" style="margin:18px 0"><strong>Tu plan actual: </strong><span id="planPageCurrent">Free</span><p class="small-note" id="planPageShare">80% artista · 20% SMILX MUSIC</p><button class="secondary" type="button" id="refreshPlanBtn">↻ Verificar mi plan</button><p class="small-note" id="refreshPlanMessage" role="status"></p></div>
+ <div class="pricing-section" id="pricingInsideApp">
+  <div class="eyebrow">CRECE CON SMILX MUSIC</div>
+  <h2>Planes y precios</h2>
+  <p class="muted">Elige el plan que mejor se adapte a tu proyecto musical o equipo de artistas.</p>
+  <div class="pricing-grid">
+   <article class="pricing-card">
+    <h3>Free</h3><div class="pricing-price">US$0</div><div class="pricing-sub">Para comenzar a distribuir tu música.</div>
+    <ul><li>Subida de música ilimitada</li><li>80% de regalías netas para el artista</li><li>20% para SMILX MUSIC</li><li>Sin acceso al panel de estadísticas</li></ul>
+    <button class="secondary" type="button" data-plan-button="Free" onclick="showPlanMessage('Free')">Ver plan Free</button>
+   </article>
+   <article class="pricing-card featured">
+    <h3>Basic</h3><div class="pricing-price">US$19.90</div><div class="pricing-sub">Para artistas independientes.</div>
+    <ul><li>Subida de música ilimitada</li><li>100% de regalías netas para el artista</li><li>Sin comisión de SMILX MUSIC</li><li>Posibles cargos de terceros aparte</li></ul>
+    <button class="primary" type="button" data-plan-button="Basic" onclick="showPlanMessage('Basic')">Elegir Basic</button>
+   </article>
+   <article class="pricing-card">
+    <h3>Label</h3><div class="pricing-price">US$59</div><div class="pricing-sub">Para sellos y equipos de hasta 5 artistas.</div>
+    <ul><li>Administración de hasta 5 artistas</li><li>100% de regalías netas para tus artistas</li><li>Acceso al panel de estadísticas</li><li>Consulta del rendimiento de tu sello</li></ul>
+    <button class="primary" type="button" data-plan-button="Label" onclick="showPlanMessage('Label')">Elegir Label</button>
+   </article>
+   <article class="pricing-card">
+    <h3>Label Pro</h3><div class="pricing-price">US$89</div><div class="pricing-sub">Para sellos y equipos de hasta 50 artistas.</div>
+    <ul><li>Administración de hasta 50 artistas</li><li>100% de regalías netas para tus artistas</li><li>Acceso a todas las funciones del panel</li><li>Estadísticas completas y totales de cada artista</li></ul>
+    <button class="primary" type="button" data-plan-button="Label Pro" onclick="showPlanMessage('Label Pro')">Elegir Label Pro</button>
+   </article>
+  </div>
+  <p class="pricing-footnote">Los precios se muestran en dólares estadounidenses. El plan activo se identifica en su tarjeta. El cobro y la activación automática requieren conectar PayPal Checkout en un servidor seguro; elegir un plan por sí solo no realiza ningún cargo.</p>
+  <p id="planMessage" class="notice" role="status" style="display:none"></p>
+ </div>
+</section>
+<section class="section" id="subir">
+ <div class="upload-heading">
+  <div><div class="eyebrow">NUEVO PROYECTO</div><h1>Subir música</h1><p class="muted">Completa los pasos para preparar tu lanzamiento.</p></div>
+  <span class="status pending">Nuevo lanzamiento</span>
+ </div>
+ <div class="upload-steps">
+  <button type="button" class="step-card active" data-step="1"><span class="step-icon">💿</span><strong>1. Lanzamiento</strong><small>Tipo y título</small></button>
+  <button type="button" class="step-card" data-step="2"><span class="step-icon">🎤</span><strong>2. Artistas</strong><small>Artista y género</small></button>
+  <button type="button" class="step-card" data-step="3"><span class="step-icon">🖼️</span><strong>3. Portada</strong><small>Imagen</small></button>
+  <button type="button" class="step-card" data-step="4"><span class="step-icon">🎵</span><strong>4. Audio</strong><small>Archivo musical</small></button>
+  <button type="button" class="step-card" data-step="5"><span class="step-icon">✍️</span><strong>5. Créditos</strong><small>Autores y productores</small></button>
+  <button type="button" class="step-card" data-step="6"><span class="step-icon">🏪</span><strong>6. Tiendas</strong><small>Plataformas</small></button>
+  <button type="button" class="step-card" data-step="7"><span class="step-icon">🛡️</span><strong>7. Derechos</strong><small>Confirmación</small></button>
+ </div>
+ <form id="releaseForm">
+  <div class="step-panel active" data-panel="1">
+   <h2>💿 Información del lanzamiento</h2><p class="muted">Indica el tipo de proyecto y sus datos principales.</p>
+   <div class="step-fields">
+    <div class="field"><label>Tipo de lanzamiento *</label><select name="release_type" required><option value="Single">Sencillo</option><option value="EP">EP</option><option value="Album">Álbum</option></select></div>
+    <div class="field"><label>Título del lanzamiento *</label><input name="title" id="releaseTitle" required placeholder="Nombre de la canción o álbum"></div>
+    <div class="field"><label for="releaseDate">Fecha de lanzamiento *</label><input id="releaseDate" type="date" name="release_date" required aria-label="Elegir fecha de lanzamiento en el calendario" title="Haz clic para abrir el calendario" onclick="try{this.showPicker()}catch(e){}" style="cursor:pointer"></div>
+    <div class="field"><label>Versión</label><select name="version"><option>Original</option><option>Remix</option><option>Acústica</option><option>En vivo</option><option>Instrumental</option><option>Radio Edit</option></select></div>
+    <div class="field"><label>Idioma *</label><select name="language" required><option>Español</option><option>Inglés</option><option>Portugués</option><option>Otro</option></select></div>
+    <div class="field"><label>Contenido explícito</label><select name="explicit"><option value="false">No</option><option value="true">Sí</option></select></div>
+   </div>
+   <div class="step-actions"><span></span><button type="button" class="primary next-step">Continuar →</button></div>
+  </div>
+  <div class="step-panel" data-panel="2">
+   <h2>🎤 Información del artista</h2><p class="muted">Indica quién interpreta la música y su género.</p>
+   <div class="step-fields">
+    <div class="field"><label>Artista principal *</label><input name="artist_name" id="releaseArtist" required placeholder="Nombre artístico"></div>
+    <div class="field"><label>Artistas invitados</label><input name="featured_artists" placeholder="Artistas participantes"></div>
+    <div class="field genre-picker-field"><label>Género musical * (puedes elegir varios)</label>
+     <div id="genreChoices" class="genre-choices" role="group" aria-label="Selecciona uno o varios géneros">
+      <label><input type="checkbox" name="genreOption" value="Reggaeton"> Reggaetón</label><label><input type="checkbox" name="genreOption" value="Trap"> Trap</label><label><input type="checkbox" name="genreOption" value="Latin Trap"> Latin Trap</label><label><input type="checkbox" name="genreOption" value="Pop"> Pop</label><label><input type="checkbox" name="genreOption" value="Hip Hop"> Hip Hop</label><label><input type="checkbox" name="genreOption" value="Bachata"> Bachata</label><label><input type="checkbox" name="genreOption" value="Merengue"> Merengue</label><label><input type="checkbox" name="genreOption" value="Dancehall"> Dancehall</label><label><input type="checkbox" name="genreOption" value="R&B"> R&amp;B</label><label><input type="checkbox" name="genreOption" value="Rock"> Rock</label><label><input type="checkbox" name="genreOption" value="Electrónica"> Electrónica</label><label><input type="checkbox" name="genreOption" value="Afrobeats"> Afrobeats</label><label><input type="checkbox" name="genreOption" value="Reggae"> Reggae</label><label><input type="checkbox" name="genreOption" value="Música cristiana"> Música cristiana</label><label><input type="checkbox" name="genreOption" value="Jazz"> Jazz</label><label><input type="checkbox" name="genreOption" value="Clásica"> Clásica</label><label><input type="checkbox" name="genreOption" value="Regional mexicano"> Regional mexicano</label><label><input type="checkbox" name="genreOption" value="Otro"> Otro</label>
+     </div><p class="small-note">Marca todos los géneros que describan tu lanzamiento.</p></div>
+    <div class="field"><label for="releaseSubgenres">Subgéneros disponibles</label><select id="releaseSubgenres" multiple size="7" aria-label="Selecciona uno o varios subgéneros" disabled><option>Primero selecciona un género</option></select><p class="small-note">Los subgéneros cambian según los géneros que selecciones. Puedes elegir varios.</p></div>
+   </div>
+   <div class="step-actions"><button type="button" class="secondary prev-step">← Atrás</button><button type="button" class="primary next-step">Continuar →</button></div>
+  </div>
+  <div class="step-panel" data-panel="3">
+   <h2>🖼️ Portada del lanzamiento</h2><p class="muted">Sube la imagen que identificará tu música.</p>
+   <div class="upload-box"><div class="big-icon">▧</div><strong>Selecciona la portada</strong><p class="muted">JPG o PNG. Máximo 10 MB.</p><input type="file" id="coverFile" accept="image/jpeg,image/png" required><img id="coverPreview" class="cover-preview-large" alt="Vista previa de portada"></div>
+   <div class="release-preview"><div class="placeholder" id="previewPlaceholder">♫</div><img id="previewCover" alt="Portada" style="display:none"><div><strong id="previewTitle">Título de tu canción</strong><p class="muted" id="previewArtist">Nombre del artista</p><span class="status pending">Vista previa</span></div></div>
+   <div class="step-actions"><button type="button" class="secondary prev-step">← Atrás</button><button type="button" class="primary next-step">Continuar →</button></div>
+  </div>
+  <div class="step-panel" data-panel="4">
+   <h2>🎵 Archivo de audio</h2><p class="muted">Selecciona el archivo de audio de tu lanzamiento.</p>
+   <div class="upload-box"><div class="big-icon">🎧</div><strong>Selecciona tu archivo musical</strong><p class="muted">WAV o MP3. Máximo 100 MB.</p><input type="file" id="audioFile" accept=".wav,.mp3,audio/wav,audio/mpeg" required><p id="audioName" class="muted">Ningún audio seleccionado.</p></div>
+   <div class="step-actions"><button type="button" class="secondary prev-step">← Atrás</button><button type="button" class="primary next-step">Continuar →</button></div>
+  </div>
+  <div class="step-panel" data-panel="5">
+   <h2>✍️ Créditos musicales</h2><p class="muted">Agrega los profesionales que participaron en la creación.</p>
+   <div class="step-fields">
+    <div class="field"><label>Productor musical</label><input name="producer" placeholder="Productor"></div>
+    <div class="field"><label>Compositor</label><input name="composer" placeholder="Compositor"></div>
+    <div class="field"><label>Letrista</label><input name="lyricist" placeholder="Autor de la letra"></div>
+    <div class="field"><label>Colaboradores y créditos</label><input name="credits" placeholder="Ingeniero, músicos, etc."></div>
+    <div class="field"><label>Código ISRC</label><input name="isrc" placeholder="Si ya tienes uno"></div>
+    <div class="field"><label>Código UPC</label><input name="upc" placeholder="Si ya tienes uno"></div>
+    <div class="field full"><label>Letra de la canción</label><textarea name="lyrics" placeholder="Escribe aquí la letra..."></textarea></div>
+   </div>
+   <div class="step-actions"><button type="button" class="secondary prev-step">← Atrás</button><button type="button" class="primary next-step">Continuar →</button></div>
+  </div>
+  <div class="step-panel" data-panel="6">
+   <h2>🏪 Selecciona tus plataformas</h2><p class="muted">Marca las tiendas donde deseas solicitar la distribución.</p>
+   <div class="platforms">
+    <label><input type="checkbox" name="platform" value="Spotify" checked> Spotify</label>
+    <label><input type="checkbox" name="platform" value="Apple Music" checked> Apple Music</label>
+    <label><input type="checkbox" name="platform" value="YouTube Music" checked> YouTube Music</label>
+    <label><input type="checkbox" name="platform" value="TikTok" checked> TikTok</label>
+    <label><input type="checkbox" name="platform" value="Amazon Music"> Amazon Music</label>
+    <label><input type="checkbox" name="platform" value="Deezer"> Deezer</label>
+    <label><input type="checkbox" name="platform" value="Tidal"> Tidal</label>
+    <label><input type="checkbox" name="platform" value="Pandora"> Pandora</label>
+    <label><input type="checkbox" name="platform" value="Facebook/Instagram"> Facebook / Instagram</label>
+    <label><input type="checkbox" name="platform" value="Anghami"> Anghami</label>
+    <label><input type="checkbox" name="platform" value="iHeartRadio"> iHeartRadio</label>
+    <label><input type="checkbox" name="platform" value="Claro Música"> Claro Música</label>
+   </div>
+   <div class="notice">La selección de tiendas se guarda como preferencia del lanzamiento. El envío efectivo requiere una integración autorizada con un distribuidor o agregador.</div>
+   <div class="step-actions"><button type="button" class="secondary prev-step">← Atrás</button><button type="button" class="primary next-step">Continuar →</button></div>
+  </div>
+  <div class="step-panel" data-panel="7">
+   <h2>🛡️ Derechos y confirmación</h2><p class="muted">Confirma que tienes autorización para distribuir el contenido.</p>
+   <div class="notice">Declara únicamente música y material gráfico que tengas derecho a distribuir. No subas contenido de terceros sin autorización.</div>
+   <label style="display:flex;align-items:flex-start;gap:10px;line-height:1.5"><input type="checkbox" id="rightsCheck" required> Confirmo que tengo los derechos y autorizaciones necesarios para distribuir este contenido.</label>
+   <div class="release-preview"><img id="finalCover" alt="Portada final" style="display:none"><div class="placeholder" id="finalPlaceholder">♫</div><div><strong id="finalTitle">Título de tu canción</strong><p class="muted" id="finalArtist">Nombre del artista</p><span class="status pending">Listo para guardar</span></div></div>
+   <p id="uploadMessage" class="muted" role="status"></p>
+   <div class="step-actions"><button type="button" class="secondary prev-step">← Atrás</button><button type="submit" class="primary" id="submitRelease">Guardar lanzamiento</button></div>
+  </div>
+ </form>
+</section>
+
+<section class="section" id="catalogo">
+ <div class="eyebrow">TU MÚSICA</div><h1>Mi catálogo</h1><p class="muted">Tus lanzamientos guardados en tu cuenta.</p>
+ <div id="releaseCards" class="catalog-grid"><div class="empty">Tus lanzamientos aparecerán aquí.</div></div>
+</section>
+
+<section class="section" id="divisiones">
+ <div class="eyebrow">REPARTO DE REGALÍAS</div><h1>Divisiones de porcentajes</h1>
+ <p class="muted">Agrega artistas que ya tengan cuenta en SMILX MUSIC y asigna su porcentaje para cada lanzamiento.</p>
+ <div class="notice">Los porcentajes se reparten dentro de la parte neta destinada a los artistas, después de la comisión del plan. Guardar una división no envía dinero automáticamente; los pagos se activarán cuando se conecten los reportes de regalías y el sistema de pagos.</div>
+ <div class="panel"><h2>Agregar colaborador</h2><form id="splitForm"><div class="split-form">
+  <div class="field"><label>Lanzamiento</label><select id="splitRelease" required><option value="">Selecciona un lanzamiento</option></select></div>
+  <div class="field"><label>Correo del artista registrado</label><input id="splitEmail" type="email" required placeholder="artista@email.com"></div>
+  <div class="field"><label>Nombre artístico</label><input id="splitName" required placeholder="Nombre artístico"></div>
+  <div class="field"><label>Porcentaje de la parte artística (%)</label><input id="splitPercent" type="number" min="0.01" max="100" step="0.01" required placeholder="Ej. 25"></div>
+ </div><div class="action-row"><button class="primary" type="submit" id="saveSplit">Guardar división</button><span id="splitMessage" class="small-note"></span></div></form></div>
+ <div class="panel" style="margin-top:16px"><h2>Divisiones guardadas</h2><div id="splitList" class="table-wrap"><div class="empty">Todavía no has agregado colaboradores.</div></div></div>
+</section>
+<section class="section" id="estadisticas"><div class="eyebrow">ANÁLISIS DE CUENTA</div><h1>Estadísticas</h1><p class="muted" id="statsPlanMessage">Las estadísticas dependen de tu plan.</p><div id="statsContent" class="panel"><div class="empty">Cargando estadísticas...</div></div></section>
+
+
+<section class="section" id="perfil">
+ <div class="eyebrow">IDENTIDAD DEL ARTISTA</div><h1>Perfil del artista</h1>
+ <div class="panel"><form id="profileForm">
+  <div class="step-fields">
+   <div class="field"><label>Nombre artístico</label><input id="profileArtist" placeholder="Nombre artístico"></div>
+   <div class="field"><label>Correo</label><input id="profileEmail" disabled></div>
+   <div class="field full"><label>Biografía</label><textarea id="profileBio" placeholder="Cuéntale al mundo sobre tu música"></textarea></div>
+   <div class="field full"><button class="primary" type="submit">Guardar perfil</button></div>
+  </div>
+ </form></div>
+</section>
+
+<section class="section" id="redes">
+ <div class="eyebrow">PRESENCIA DIGITAL</div><h1>Mis redes y perfiles musicales</h1>
+ <p class="muted">Agrega los enlaces oficiales de tus redes y perfiles musicales.</p>
+ <div class="notice">Coloca enlaces de tus propios perfiles. Agregar un enlace no significa que la cuenta esté verificada por SMILX MUSIC.</div>
+ <form id="socialForm"><div class="social-grid">
+  <div class="social-card"><div class="social-card-top"><div class="social-symbol">IG</div><strong>Instagram</strong></div><label for="instagram_url">Enlace de Instagram</label><input id="instagram_url" type="url" placeholder="https://instagram.com/tuusuario"></div>
+  <div class="social-card"><div class="social-card-top"><div class="social-symbol">f</div><strong>Facebook</strong></div><label for="facebook_url">Enlace de Facebook</label><input id="facebook_url" type="url" placeholder="https://facebook.com/tuperfil"></div>
+  <div class="social-card"><div class="social-card-top"><div class="social-symbol">♪</div><strong>TikTok</strong></div><label for="tiktok_url">Enlace de TikTok</label><input id="tiktok_url" type="url" placeholder="https://tiktok.com/@tuusuario"></div>
+  <div class="social-card"><div class="social-card-top"><div class="social-symbol">▶</div><strong>YouTube</strong></div><label for="youtube_url">Enlace de YouTube</label><input id="youtube_url" type="url" placeholder="https://youtube.com/@tucanal"></div>
+  <div class="social-card"><div class="social-card-top"><div class="social-symbol">X</div><strong>X (Twitter)</strong></div><label for="x_url">Enlace de X</label><input id="x_url" type="url" placeholder="https://x.com/tuusuario"></div>
+  <div class="social-card"><div class="social-card-top"><div class="social-symbol">S</div><strong>Spotify</strong></div><label for="spotify_url">Perfil de Spotify</label><input id="spotify_url" type="url" placeholder="https://open.spotify.com/artist/..."></div>
+  <div class="social-card"><div class="social-card-top"><div class="social-symbol">♫</div><strong>Apple Music</strong></div><label for="apple_music_url">Perfil de Apple Music</label><input id="apple_music_url" type="url" placeholder="https://music.apple.com/artist/..."></div>
+  <div class="social-card"><div class="social-card-top"><div class="social-symbol">▶</div><strong>YouTube Music</strong></div><label for="youtube_music_url">Perfil de YouTube Music</label><input id="youtube_music_url" type="url" placeholder="https://music.youtube.com/channel/..."></div>
+ </div><div class="social-actions"><button type="submit" class="primary" id="saveSocial">Guardar mis enlaces</button><span id="socialMessage" class="social-status"></span></div></form>
+ <p class="social-note">Los enlaces se guardan en tu cuenta de artista.</p>
+</section>
+
+<section class="section" id="icono">
+ <div class="eyebrow">MARCA</div><h1>Icono de la página web</h1>
+ <div class="panel"><p class="muted">Selecciona una imagen para usarla como icono en la pestaña de este navegador.</p>
+ <input type="file" id="faviconFile" accept="image/png,image/jpeg,image/x-icon">
+ <br><br><img id="faviconPreview" class="preview" style="display:none" alt="Vista previa del icono">
+ <br><br><button class="primary" id="saveFavicon">Aplicar fotografía como icono</button>
+ <p class="muted">Este ajuste se guarda en este navegador. Para todos los visitantes, publica un archivo favicon en el sitio.</p></div>
+</section>
+
+<section class="section" id="tiendas">
+ <div class="eyebrow">DESTINOS DIGITALES</div><h1>Plataformas digitales</h1>
+ <div class="cards">
+  <div class="card">Spotify<div class="metric">♫</div></div><div class="card">Apple Music<div class="metric">♫</div></div>
+  <div class="card">YouTube Music<div class="metric">▶</div></div><div class="card">TikTok<div class="metric">♪</div></div>
+  <div class="card">Amazon Music<div class="metric">♫</div></div><div class="card">Deezer<div class="metric">♫</div></div>
+ </div>
+ <div class="notice">Estas plataformas son destinos seleccionables en el formulario. Para distribuir música realmente, SMILX MUSIC debe tener una integración o acuerdo con un proveedor autorizado.</div>
+</section>
+
+<section class="section" id="regalias">
+ <div class="eyebrow">INGRESOS DEL ARTISTA</div><h1>Regalías y retiros</h1>
+ <div class="cards"><div class="card">Saldo disponible verificado<div class="metric" id="withdrawBalance">US$0.00</div><div class="metric-label">Solo cambia tras conciliación y aprobación de SMILX</div></div><div class="card">Mínimo de retiro<div class="metric">US$25</div><div class="metric-label">Sujeto a saldo retirable verificado</div></div><div class="card">Frecuencia<div class="metric" style="font-size:22px">Mensual</div><div class="metric-label">Una solicitud al mes · sin máximo fijo</div></div></div>
+ <div class="panel" style="margin-top:18px"><div class="admin-toolbar"><div><h2>Mis regalías registradas</h2><p class="muted">Importes calculados desde los reportes CSV oficiales que SMILX MUSIC haya importado para tu cuenta.</p></div><button class="secondary" id="artistRoyaltyRefresh" type="button">↻ Actualizar</button></div>
+  <div id="artistRoyaltyTotals" class="cards"><div class="card">Cargando tus regalías…</div></div>
+  <p class="small-note" id="artistRoyaltyMessage" role="status">Consultando tus reportes…</p>
+  <div class="table-wrap"><table><thead><tr><th>Período</th><th>Plataforma</th><th>Lanzamiento</th><th>Streams</th><th>Tu parte</th><th>Plan</th></tr></thead><tbody id="artistRoyaltyRows"><tr><td colspan="6">Cargando…</td></tr></tbody></table></div>
+  <p class="small-note">Importante: estas son regalías contables registradas, no saldo disponible para retirar. El saldo retirable solo se actualiza después de la conciliación y verificación independiente de SMILX MUSIC.</p>
+ </div>
+ <div class="panel" style="margin-top:18px"><h2>Solicitar retiro de ganancias</h2><p class="muted">Completa el monto y selecciona cómo deseas recibir tu pago.</p>
+  <form id="withdrawForm">
+   <div class="paypal-heading"><span class="paypal-mark">PayPal</span><div><strong>Pago mediante PayPal</strong><p>Tu retiro se tramita usando el correo de tu cuenta PayPal.</p></div></div>
+   <label for="withdrawAmount">Monto a retirar (USD)</label><input id="withdrawAmount" type="number" min="25" step="0.01" placeholder="Ej. 50.00" required>
+   <label>Método de retiro</label><input type="text" value="PayPal" readonly aria-label="Método de retiro PayPal">
+   <label for="withdrawPaypalEmail">Correo de tu cuenta PayPal</label><input id="withdrawPaypalEmail" type="email" placeholder="tunombre@email.com" required>
+   <p class="small-note">Escribe únicamente el correo asociado a tu cuenta PayPal. Nunca compartas tu contraseña ni códigos de seguridad.</p>
+   <button class="primary" id="withdrawBtn" type="submit">Solicitar retiro</button><p id="withdrawMessage" class="muted" role="status"></p>
+  </form>
+ </div>
+ <div class="panel" style="margin-top:18px"><h2>Mis solicitudes de retiro</h2><div id="withdrawHistory" class="muted">Inicia sesión para consultar tus solicitudes.</div></div>
+ <div class="notice">Importante: este formulario registra una solicitud; no envía dinero automáticamente. Los pagos se realizan después de verificar el saldo y aprobar la solicitud.</div>
+</section>
+
+<section class="section" id="ayuda">
+ <div class="eyebrow">SOPORTE</div><h1>Mensajes de soporte</h1>
+ <div class="panel"><h2>Contactar al equipo de SMILX MUSIC</h2><p class="muted">Envía tu problema o pregunta. Podrás consultar el estado de tus solicitudes desde aquí.</p>
+  <label for="supportSubject">Asunto</label><input id="supportSubject" type="text" maxlength="120" placeholder="Ej. Problema al subir mi canción" required>
+  <label for="supportText">Tu mensaje</label><textarea id="supportText" rows="5" maxlength="5000" placeholder="Describe cómo podemos ayudarte..." required></textarea>
+  <button class="primary" id="supportBtn" type="button">Enviar mensaje a soporte</button><p id="supportMessage" class="muted" role="status"></p>
+ </div>
+ <div class="panel" style="margin-top:18px"><h2>Mis mensajes enviados</h2><div id="supportHistory" class="muted">Inicia sesión para consultar tus mensajes.</div></div>
+</section>
+</main>
+</div>
+</div>
+
+<div id="smilxChatWidget" class="smilx-chat-widget">
+ <section id="smilxChatPanel" class="smilx-chat-panel" aria-label="Chat de ayuda SMILX MUSIC" hidden>
+  <header class="smilx-chat-header"><div class="smilx-chat-avatar">S</div><div><strong>SMILX MUSIC</strong><small>Asistente de ayuda · En línea</small></div><button id="smilxChatClose" type="button" aria-label="Cerrar chat">×</button></header>
+  <div id="smilxChatMessages" class="smilx-chat-messages" aria-live="polite"><div class="smilx-chat-bubble bot">¡Hola! 👋 Soy el asistente de SMILX MUSIC. Puedo ayudarte con tu cuenta, planes, lanzamientos, regalías y retiros. ¿Qué necesitas?</div></div>
+  <div class="smilx-chat-actions"><button id="supportAgentBtn" type="button">Hablar con un agente</button></div>
+  <form id="smilxChatForm" class="smilx-chat-compose"><input id="supportBotInput" type="text" placeholder="Escribe tu mensaje..." maxlength="1000" autocomplete="off" aria-label="Tu mensaje"><button id="supportBotSend" type="submit" aria-label="Enviar mensaje">➤</button></form>
+ </section>
+ <button id="smilxChatToggle" class="smilx-chat-toggle" type="button" aria-label="Abrir chat de ayuda"><span>✉</span><i>Ayuda</i></button>
+</div>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+const SUPABASE_URL = "https://gerybpcdecwsuihwgkhs.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_kNUPrvcdgj00C34SFAyIvg_xDtQghSk";
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+async function iniciarSesion(email, password) {
+  return await supabase.auth.signInWithPassword({ email, password });
+}
+const $=id=>document.getElementById(id);
+let currentUser=null,currentStep=1,coverObjectUrl=null,faviconData="",releaseCache=[],currentSupportTicketId=null;
+const showMessage=(id,msg)=>$(id).textContent=msg;
+const escapeHTML=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function showPage(page){
+ document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+ $(page)?.classList.add("active");
+ document.querySelector(`[data-page="${page}"]`)?.classList.add("active");
+ if(page==="catalogo")loadReleases();
+ if(page==="divisiones")loadSplits();
+ if(page==="estadisticas")loadStatistics();
+ if(page==="redes")loadSocialLinks();
+ if(page==="ayuda")loadSupportHistory();
+ if(page==="regalias"){loadWithdrawalHistory();loadArtistRoyaltySummary();}
+}
+window.showPage=showPage;
+async function startPayPalCheckout(plan, messageBox=$("planMessage")){
+ if(!currentUser){
+  if(messageBox){messageBox.style.display="block";messageBox.textContent="Inicia sesión para continuar con el pago.";}
+  openLogin();
+  return;
+ }
+ if(!["Basic","Label","Label Pro"].includes(plan)){
+  if(messageBox){messageBox.style.display="block";messageBox.textContent="Selecciona un plan de pago válido.";}
+  return;
+ }
+ if(messageBox){messageBox.style.display="block";messageBox.textContent="Conectando con PayPal y preparando tu orden...";messageBox.scrollIntoView({behavior:"smooth",block:"nearest"});}
+ try{
+  const {data,error}=await supabase.functions.invoke("paypal-create-order",{body:{plan}});
+  if(error)throw error;
+  if(!data?.ok||!data?.approvalUrl)throw new Error(data?.error||"PayPal no devolvió el enlace de pago.");
+  if(messageBox)messageBox.textContent="Orden creada. Abriendo PayPal de forma segura...";
+  window.location.assign(data.approvalUrl);
+ }catch(error){
+  console.error("Error iniciando PayPal:",error);
+  if(messageBox)messageBox.textContent="No se pudo iniciar el pago: "+(error.message||"Error desconocido")+". No se ha activado ni cobrado ningún plan.";
+ }
+}
+
+async function completePayPalReturn(){
+ const params=new URLSearchParams(window.location.search);
+ const paypalStatus=params.get("paypal");
+ if(paypalStatus==="cancel"){
+  history.replaceState({},document.title,window.location.pathname+window.location.hash);
+  alert("El pago fue cancelado. Tu plan no ha cambiado.");
+  return false;
+ }
+ if(paypalStatus!=="success")return false;
+ const orderId=params.get("token");
+ if(!orderId){alert("PayPal regresó sin un número de orden. Contacta a soporte si realizaste un pago.");return false;}
+ try{
+  const {data,error}=await supabase.functions.invoke("paypal-capture-order",{body:{orderId}});
+  if(error)throw error;
+  if(!data?.ok)throw new Error(data?.error||"El servidor no confirmó el pago.");
+  history.replaceState({},document.title,window.location.pathname+window.location.hash);
+  alert("¡Pago confirmado! Tu plan "+data.plan+" está activo hasta "+new Date(data.expiresAt).toLocaleDateString("es-DO")+".");
+  return true;
+ }catch(error){
+  console.error("Error confirmando pago PayPal:",error);
+  alert("No pudimos confirmar el pago automáticamente: "+(error.message||"Error desconocido")+". No vuelvas a pagar. Contacta a soporte SMILX MUSIC para revisar la orden.");
+  return false;
+ }
+}
+
+window.showPlanMessage=async function(plan){
+ const box=$("planMessage");
+ box.style.display="block";
+ if(plan===activePlan){
+  box.textContent="Tu plan activo es "+activePlan+". No necesitas volver a seleccionarlo.";
+ }else if(plan==="Free"){
+  box.textContent="Para cambiar a Free, solicita el cambio al equipo de SMILX MUSIC. No se realizará ningún cobro.";
+ }else{
+  await startPayPalCheckout(plan,box);
+ }
+ box.scrollIntoView({behavior:"smooth",block:"nearest"});
+};
+document.querySelectorAll("nav button").forEach(button=>button.addEventListener("click",()=>showPage(button.dataset.page)));
+// Mostrar los planes en la portada pública, antes de iniciar sesión.
+const publicPricing=$("pricingInsideApp").cloneNode(true);
+publicPricing.removeAttribute("id");
+publicPricing.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
+publicPricing.querySelectorAll("button").forEach(btn=>{const card=btn.closest(".pricing-card");const plan=card?.querySelector("h3")?.textContent?.trim()||"Free";btn.textContent="Crear cuenta con "+plan;btn.onclick=()=>openSignup(plan);});
+$("publicPlans").appendChild(publicPricing);
+function showWelcome(){ $("publicWelcome").style.display="block"; $("login").style.display="none"; $("signup").style.display="none"; $("paymentGate").style.display="none"; }
+function openLogin(){ $("publicWelcome").style.display="none"; $("signup").style.display="none"; $("login").style.display="block"; $("email").focus(); }
+function openSignup(plan="Free"){ $("publicWelcome").style.display="none"; $("login").style.display="none"; $("signup").style.display="block"; $("signupPlan").value=plan; $("signupName").focus(); }
+$("openLoginBtn").addEventListener("click",openLogin);
+$("openSignupBtn").addEventListener("click",()=>openSignup());
+$("heroLoginBtn").addEventListener("click",openLogin);
+$("heroSignupBtn").addEventListener("click",()=>openSignup());
+$("backToWelcomeFromLogin").addEventListener("click",showWelcome);
+$("backToWelcomeFromSignup").addEventListener("click",showWelcome);
+$("switchToSignup").addEventListener("click",()=>openSignup());
+$("switchToLogin").addEventListener("click",openLogin);
+
+$("signupBtn").addEventListener("click",async()=>{
+ const name=$("signupName").value.trim(),email=$("signupEmail").value.trim(),password=$("signupPassword").value,confirm=$("signupPasswordConfirm").value,plan=$("signupPlan").value;
+ if(!name||!email||!password||!confirm){showMessage("signupMessage","Completa todos los campos para crear tu cuenta.");return;}
+ if(password.length<8){showMessage("signupMessage","La contraseña debe tener al menos 8 caracteres.");return;}
+ if(password!==confirm){showMessage("signupMessage","Las contraseñas no coinciden.");return;}
+ $("signupBtn").disabled=true;showMessage("signupMessage","Creando tu cuenta...");
+ try{
+  const {data,error}=await supabase.auth.signUp({email,password,options:{data:{artist_name:name,requested_plan:plan}}});
+  if(error)throw error;
+  if(data.session){showMessage("signupMessage","¡Cuenta creada! Ya puedes iniciar sesión. Si tu correo requiere confirmación, revisa tu bandeja de entrada.");}
+  else{showMessage("signupMessage","Registro recibido. Revisa tu correo para confirmar la cuenta y luego inicia sesión. El plan solicitado es "+plan+"; los planes de pago requieren confirmación antes de activarse.");}
+ }catch(error){showMessage("signupMessage",error.message||"No se pudo crear la cuenta.");}
+ finally{$("signupBtn").disabled=false;}
+});
+
+$("loginBtn").addEventListener("click",async()=>{
+ const email=$("email").value.trim(),password=$("password").value;
+ if(!email||!password){showMessage("loginMessage","Escribe tu correo y contraseña.");return;}
+ showMessage("loginMessage","Verificando tu cuenta y tu plan...");
+ $("loginBtn").disabled=true;
+ try{
+  const {data,error}=await iniciarSesion(email,password);if(error)throw error;
+  currentUser=data.user;
+  // Comprobar primero si la cuenta tiene rol administrativo.
+  const {data:adminRow,error:adminError}=await supabase.from("admin_users").select("user_id,role").eq("user_id",currentUser.id).maybeSingle();
+  if(adminError)throw new Error("No pudimos verificar los permisos administrativos. El acceso se bloqueó por seguridad. "+adminError.message);
+  const adminRole=String(adminRow?.role||"").toLowerCase();
+  if(["owner","admin"].includes(adminRole)){
+   $("login").style.display="none";$("signup").style.display="none";$("publicWelcome").style.display="none";$("openLoginBtn").style.display="none";$("openSignupBtn").style.display="none";$("paymentGate").style.display="none";$("app").style.display="none";$("adminPanel").style.display="block";$("logout").style.display="inline-block";
+   $("headerEmail").textContent=currentUser.email||"Administración SMILX";$("adminRoleBadge").textContent=adminRole==="owner"?"Propietario · OWNER":"Administrador · ADMIN";
+   await loadAdminArtists();
+   return;
+  }
+  // Verificar suspensión antes de abrir el panel del artista.
+  const {data:accountActive,error:accountControlError}=await supabase.rpc("smilx_is_account_active");
+  if(accountControlError)throw new Error("No pudimos verificar el estado de tu cuenta. Ejecuta el SQL actualizado y vuelve a intentarlo. "+accountControlError.message);
+  if(accountActive===false){await supabase.auth.signOut();currentUser=null;throw new Error("Tu cuenta está suspendida. Contacta al equipo de SMILX MUSIC.");}
+  $("adminPanel").style.display="none";
+  // Si PayPal acaba de devolver al artista, verificar y capturar antes de revisar el plan.
+  await completePayPalReturn();
+  // Verify the plan before revealing the artist dashboard.
+  const {data:planRow,error:planError}=await supabase.from("smilx_user_plans").select("plan,status").eq("user_id",currentUser.id).maybeSingle();
+  if(planError)throw new Error("No pudimos verificar el estado de tu plan. Por seguridad, el panel no se abrirá todavía. "+planError.message);
+  const plan=planRow?.plan||"Free",status=planRow?.status||"active";
+  const paid=plan!=="Free";
+  if(paid&&status!=="active"){
+   const prices={Basic:"US$19.90",Label:"US$59", "Label Pro":"US$89"};
+   $("login").style.display="none";$("publicWelcome").style.display="none";$("app").style.display="none";$("paymentGate").style.display="block";
+   $("gateDescription").textContent="El plan "+plan+" está pendiente de confirmación. Completa el pago para desbloquear tu panel.";
+   $("gatePrice").textContent=prices[plan]||"Pago pendiente";
+   return;
+  }
+  $("login").style.display="none";$("signup").style.display="none";$("publicWelcome").style.display="none";$("openLoginBtn").style.display="none";$("openSignupBtn").style.display="none";$("paymentGate").style.display="none";$("app").style.display="block";$("logout").style.display="inline-block";
+  $("profileEmail").value=currentUser.email||"";$("headerEmail").textContent=currentUser.email||"Cuenta de artista";
+  await loadPlan();await loadReleases();renderStats();await loadSocialLinks();await loadSupportHistory();await loadWithdrawalHistory();await loadArtistRoyaltySummary();
+ }catch(error){showMessage("loginMessage",error.message||"No se pudo iniciar sesión.");}
+ finally{$("loginBtn").disabled=false;}
+});
+$("gateLogout").addEventListener("click",async()=>{await supabase.auth.signOut();location.reload();});
+$("password").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginBtn").click();});
+$("logout").addEventListener("click",async()=>{await supabase.auth.signOut();location.reload();});
+
+function goStep(step){
+ currentStep=Math.max(1,Math.min(7,step));
+ document.querySelectorAll(".step-card").forEach(card=>card.classList.toggle("active",Number(card.dataset.step)===currentStep));
+ document.querySelectorAll(".step-panel").forEach(panel=>panel.classList.toggle("active",Number(panel.dataset.panel)===currentStep));
+}
+document.querySelectorAll(".step-card").forEach(card=>card.addEventListener("click",()=>goStep(Number(card.dataset.step))));
+document.querySelectorAll(".next-step").forEach(button=>button.addEventListener("click",()=>{
+ const panel=document.querySelector(`[data-panel="${currentStep}"]`);
+ for(const input of [...panel.querySelectorAll("[required]")]){if(!input.checkValidity()){input.reportValidity();return;}}
+ goStep(currentStep+1);
+}));
+document.querySelectorAll(".prev-step").forEach(button=>button.addEventListener("click",()=>goStep(currentStep-1)));
+
+$("coverFile").addEventListener("change",()=>{
+ const file=$("coverFile").files[0];if(!file)return;
+ if(!["image/jpeg","image/png"].includes(file.type)){alert("La portada debe ser JPG o PNG.");$("coverFile").value="";return;}
+ if(file.size>10*1024*1024){alert("La portada supera los 10 MB.");$("coverFile").value="";return;}
+ if(coverObjectUrl)URL.revokeObjectURL(coverObjectUrl);
+ coverObjectUrl=URL.createObjectURL(file);
+ $("coverPreview").src=coverObjectUrl;$("coverPreview").style.display="block";
+ $("previewCover").src=coverObjectUrl;$("previewCover").style.display="block";$("previewPlaceholder").style.display="none";
+ $("finalCover").src=coverObjectUrl;$("finalCover").style.display="block";$("finalPlaceholder").style.display="none";
+ updateReleasePreview();
+});
+$("releaseTitle").addEventListener("input",updateReleasePreview);
+$("releaseArtist").addEventListener("input",updateReleasePreview);
+function updateReleasePreview(){
+ const title=$("releaseTitle").value.trim()||"Título de tu canción",artist=$("releaseArtist").value.trim()||"Nombre del artista";
+ $("previewTitle").textContent=title;$("previewArtist").textContent=artist;$("finalTitle").textContent=title;$("finalArtist").textContent=artist;
+}
+$("audioFile").addEventListener("change",()=>{
+ const file=$("audioFile").files[0];$("audioName").textContent=file?`Archivo seleccionado: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`:"Ningún audio seleccionado.";
+});
+
+const genreSubgenreMap={
+ "Reggaeton":["Reggaetón romántico","Reggaetón clásico","Reggaetón comercial","Perreo","Dembow urbano","Reggaetón alternativo"],
+ "Trap":["Trap oscuro","Trap melódico","Trap latino","Trap soul","Drill","Plug"],
+ "Latin Trap":["Latin trap romántico","Latin trap callejero","Latin trap melódico","Latin drill"],
+ "Pop":["Pop latino","Pop urbano","Dance-pop","Synth-pop","Indie pop","Electropop"],
+ "Hip Hop":["Rap","Boom bap","Conscious hip hop","Old school","Hip hop alternativo","Freestyle"],
+ "Bachata":["Bachata tradicional","Bachata moderna","Bachata urbana","Bachata romántica"],
+ "Merengue":["Merengue típico","Merengue de calle","Merengue mambo","Merengue romántico"],
+ "Dancehall":["Dancehall clásico","Dancehall moderno","Ragga","Afro-dancehall"],
+ "R&B":["Contemporary R&B","Neo-soul","R&B alternativo","R&B latino","Quiet storm"],
+ "Rock":["Rock alternativo","Pop rock","Hard rock","Indie rock","Punk rock","Rock clásico"],
+ "Electrónica":["House","Deep house","Techno","Trance","EDM","Dubstep","Afro house"],
+ "Afrobeats":["Afropop","Amapiano","Afro-fusion","Afro-house","Afro-rhythm"],
+ "Reggae":["Roots reggae","Dancehall reggae","Lovers rock","Ska","Dub"],
+ "Música cristiana":["Adoración","Alabanza","Gospel","Urbano cristiano","Rap cristiano","Bachata cristiana"],
+ "Jazz":["Smooth jazz","Bebop","Jazz fusión","Swing","Latin jazz"],
+ "Clásica":["Orquestal","Piano clásico","Cámara","Ópera","Contemporánea"],
+ "Regional mexicano":["Banda","Norteño","Corridos tumbados","Mariachi","Ranchera","Sierreño"],
+ "Otro":["Otro subgénero"]
+};
+const genreChoiceInputs=[...document.querySelectorAll('input[name="genreOption"]')];
+const subgenreSelect=$("releaseSubgenres");
+function refreshSubgenres(){
+ const selected=genreChoiceInputs.filter(x=>x.checked).map(x=>x.value);
+ const previous=[...subgenreSelect.selectedOptions].map(o=>o.value);
+ const options=selected.flatMap(g=>(genreSubgenreMap[g]||[]).map(sub=>({value:sub,label:g+" — "+sub})));
+ subgenreSelect.innerHTML="";
+ if(!options.length){subgenreSelect.disabled=true;subgenreSelect.add(new Option("Primero selecciona un género",""));return;}
+ subgenreSelect.disabled=false;
+ options.forEach(item=>{const opt=new Option(item.label,item.value);opt.selected=previous.includes(item.value);subgenreSelect.add(opt);});
+}
+genreChoiceInputs.forEach(input=>input.addEventListener("change",refreshSubgenres));
+
+$("releaseForm").addEventListener("submit",async event=>{
+ event.preventDefault();
+ if(!currentUser){showMessage("uploadMessage","Debes iniciar sesión.");return;}
+ const selectedGenres=genreChoiceInputs.filter(x=>x.checked).map(x=>x.value);
+ const selectedSubgenres=[...subgenreSelect.selectedOptions].map(o=>o.value);
+ if(!selectedGenres.length){showMessage("uploadMessage","Selecciona al menos un género musical.");goStep(2);return;}
+ const audio=$("audioFile").files[0],cover=$("coverFile").files[0];
+ if(!audio||!cover){showMessage("uploadMessage","Debes seleccionar el audio y la portada.");return;}
+ if(!/\.(wav|mp3)$/i.test(audio.name)){showMessage("uploadMessage","El audio debe ser WAV o MP3.");return;}
+ if(audio.size>100*1024*1024){showMessage("uploadMessage","El audio supera los 100 MB.");return;}
+ if(!$("rightsCheck").checked){showMessage("uploadMessage","Debes confirmar los derechos del contenido.");return;}
+ const button=$("submitRelease");button.disabled=true;button.textContent="Subiendo...";
+ showMessage("uploadMessage","Subiendo archivos. No cierres esta página.");
+ try{
+  const artistId=await getArtistProfileId();
+  const safeAudio=audio.name.replace(/[^a-zA-Z0-9._-]/g,"_"),safeCover=cover.name.replace(/[^a-zA-Z0-9._-]/g,"_"),unique=Date.now();
+  const audioPath=currentUser.id+"/"+unique+"_"+safeAudio,coverPath=currentUser.id+"/"+unique+"_"+safeCover;
+  const audioUpload=await supabase.storage.from("music-audio").upload(audioPath,audio);if(audioUpload.error)throw audioUpload.error;
+  const coverUpload=await supabase.storage.from("cover-art").upload(coverPath,cover);if(coverUpload.error)throw coverUpload.error;
+  const values=Object.fromEntries(new FormData(event.target).entries());
+  const {error}=await supabase.from("releases").insert({
+   user_id:currentUser.id,artist_id:artistId,title:values.title,release_title:values.title,artist_name:values.artist_name,artist_full_name:values.artist_name,
+   release_type:values.release_type,genre:selectedGenres.join(", ")+(selectedSubgenres.length?" | Subgéneros: "+selectedSubgenres.join(", "):""),language:values.language||"Español",status:"pending",
+   audio_type:audio.type || (/\\.wav$/i.test(audio.name) ? "audio/wav" : "audio/mpeg"),
+   release_date:values.release_date,audio_path:audioPath,audio_file_path:audioPath,cover_path:coverPath,cover_file_path:coverPath
+  });
+  if(error)throw error;
+  showMessage("uploadMessage","¡Lanzamiento enviado! Ahora aparece EN REVISIÓN. Cuando el equipo lo apruebe, aparecerá DISPONIBLE en verde.");
+  event.target.reset();$("coverPreview").style.display="none";$("previewCover").style.display="none";
+  $("previewPlaceholder").style.display="grid";$("finalCover").style.display="none";$("finalPlaceholder").style.display="grid";
+  $("audioName").textContent="Ningún audio seleccionado.";
+  if(coverObjectUrl){URL.revokeObjectURL(coverObjectUrl);coverObjectUrl=null;}
+  updateReleasePreview();goStep(1);await loadReleases();showPage("catalogo");
+ }catch(error){showMessage("uploadMessage","Error al guardar: "+(error.message||"Error desconocido"));}
+ finally{button.disabled=false;button.textContent="Guardar lanzamiento";}
+});
+
+async function loadReleases(){
+ if(!currentUser)return;
+ $("releaseCards").innerHTML='<div class="empty">Cargando tus lanzamientos...</div>';
+ const {data,error}=await supabase.from("releases").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false});
+ if(error){$("releaseCards").innerHTML='<div class="empty">No se pudo cargar el catálogo: '+escapeHTML(error.message)+'</div>';return;}
+ releaseCache=data||[];
+ $("totalReleases").textContent=releaseCache.length;
+ $("pendingReleases").textContent=releaseCache.filter(x=>["pending","review","in_review","submitted"].includes(String(x.status||"").toLowerCase())).length;
+ $("publishedReleases").textContent=releaseCache.filter(x=>["published","available"].includes(String(x.status||"").toLowerCase())).length;
+ const select=$("splitRelease");if(select){const old=select.value;select.innerHTML='<option value="">Selecciona un lanzamiento</option>'+releaseCache.map(r=>`<option value="${escapeHTML(r.id)}">${escapeHTML(r.title||"Sin título")}</option>`).join("");if(old)select.value=old;}
+ if(!releaseCache.length){$("releaseCards").innerHTML='<div class="empty"><div class="empty-icon">♫</div><strong>Aún no tienes lanzamientos</strong><p class="muted">Cuando subas tu primera canción, aparecerá aquí.</p><button class="primary" onclick="showPage(\'subir\')">＋ Subir música</button></div>';return;}
+ const cards=await Promise.all(releaseCache.map(async r=>{
+  let imageUrl="";const cp=r.cover_path||r.cover_file_path;
+  if(cp){const {data:imageData}=await supabase.storage.from("cover-art").createSignedUrl(cp,3600);imageUrl=imageData?.signedUrl||"";}
+  const st=String(r.status||"draft").toLowerCase();let label="Borrador",cls="draft";
+  if(["published","available"].includes(st)){label="Disponible";cls="available";}
+  else if(["pending","review","in_review","submitted"].includes(st)){label="En revisión";cls="pending";}
+  else if(st==="rejected"){label="Rechazado";cls="rejected";}
+  const image=imageUrl?`<img src="${escapeHTML(imageUrl)}" alt="Portada">`:'<div style="aspect-ratio:1;background:#17263a;display:grid;place-items:center;font-size:45px;color:#55adff">♫</div>';
+  return `<article class="release-card">${image}<div class="release-card-body"><div class="release-card-title">${escapeHTML(r.title||"Sin título")}</div><p class="muted">${escapeHTML(r.artist_name||"Artista sin nombre")}</p><p class="muted">${escapeHTML(r.release_type||"Lanzamiento")} · ${escapeHTML(r.release_date||"Sin fecha")}</p><span class="status ${cls}">${label}</span><div class="action-row"><button class="secondary" type="button" onclick="editRelease('${String(r.id)}')">Editar</button><button class="secondary" type="button" onclick="deleteRelease('${String(r.id)}')">Borrar</button></div></div></article>`;
+ }));
+ $("releaseCards").innerHTML=cards.join("");
+}
+window.editRelease=async function(id){
+ const r=releaseCache.find(x=>String(x.id)===String(id));if(!r)return;
+ const title=prompt("Título del lanzamiento:",r.title||"");if(title===null)return;
+ const artist=prompt("Artista principal:",r.artist_name||"");if(artist===null)return;
+ const date=prompt("Fecha (AAAA-MM-DD):",r.release_date||"");if(date===null)return;
+ if(!title.trim()||!artist.trim()){alert("Título y artista son obligatorios.");return;}
+ const {error}=await supabase.from("releases").update({title:title.trim(),artist_name:artist.trim(),release_date:date||null}).eq("id",id).eq("user_id",currentUser.id);
+ if(error){alert("No se pudo editar: "+error.message);return;}await loadReleases();alert("Lanzamiento actualizado.");
+};
+window.deleteRelease=async function(id){
+ const r=releaseCache.find(x=>String(x.id)===String(id));if(!r)return;
+ if(!confirm(`¿Borrar “${r.title||"este lanzamiento"}”? No se puede deshacer.`))return;
+ const {error}=await supabase.from("releases").delete().eq("id",id).eq("user_id",currentUser.id);
+ if(error){alert("No se pudo borrar: "+error.message);return;}
+ const ap=r.audio_path||r.audio_file_path,cp=r.cover_path||r.cover_file_path;
+ if(ap)await supabase.storage.from("music-audio").remove([ap]);if(cp)await supabase.storage.from("cover-art").remove([cp]);
+ await loadReleases();alert("Lanzamiento borrado.");
+};
+async function getArtistProfileId(){
+ const {data,error}=await supabase.from("artist_profiles").select("id").eq("user_id",currentUser.id).maybeSingle();
+ if(error)throw error;
+ if(!data?.id)throw new Error("Primero guarda tu perfil de artista antes de subir música.");
+ return data.id;
+}
+let activePlan="Free";
+async function loadPlan(){
+ const {data,error}=await supabase.from("smilx_user_plans").select("plan,status").eq("user_id",currentUser.id).maybeSingle();
+ activePlan=(!error&&data&&data.status==="active")?data.plan:"Free";
+ // La opción de estadísticas y su gráfico son exclusivos de cualquier plan de pago activo.
+ const statsNav=document.querySelector('[data-page="estadisticas"]');
+ const statsSection=$("estadisticas");
+ const statsEnabled=activePlan!=="Free";
+ if(statsNav)statsNav.style.display=statsEnabled?"":"none";
+ if(statsSection)statsSection.style.display=statsEnabled?"":"none";
+ $("currentPlanLabel").textContent=activePlan;
+ $("currentPlanShare").textContent=activePlan==="Free"?"80% artista · 20% SMILX MUSIC":"100% de regalías netas para artistas";
+ if($("planPageCurrent")){$("planPageCurrent").textContent=activePlan;$("planPageShare").textContent=$("currentPlanShare").textContent;}
+ document.querySelectorAll("[data-plan-button]").forEach(btn=>{
+  const plan=btn.getAttribute("data-plan-button");
+  const isCurrent=plan===activePlan;
+  btn.textContent=isCurrent?"✓ Plan activo":(plan==="Free"?"Cambiar a Free":"Elegir "+plan);
+  btn.disabled=isCurrent;
+  btn.classList.toggle("secondary",isCurrent);
+  btn.classList.toggle("primary",!isCurrent);
+  btn.setAttribute("aria-label",isCurrent?"Plan activo: "+plan:"Elegir plan "+plan);
+ });
+}
+function statsMarkup(){
+ const total=releaseCache.length,pending=releaseCache.filter(x=>["pending","review","in_review","submitted"].includes(String(x.status||"").toLowerCase())).length;
+ const available=releaseCache.filter(x=>["published","available"].includes(String(x.status||"").toLowerCase())).length;
+ const rejected=releaseCache.filter(x=>String(x.status||"").toLowerCase()==="rejected").length;
+ return `<div class="stat-box">Lanzamientos totales<strong>${total}</strong></div><div class="stat-box">En revisión<strong>${pending}</strong></div><div class="stat-box">Disponibles<strong>${available}</strong></div><div class="stat-box">Rechazados<strong>${rejected}</strong></div>`;
+}
+function renderStats(royaltyEntries=[]){
+ const eligible=activePlan!=="Free";
+ $("homeStatsPanel").style.display=eligible?"block":"none";
+ if(eligible)$("homeStats").innerHTML=statsMarkup();
+ if(!eligible){$("statsPlanMessage").textContent="Las estadísticas y el gráfico están disponibles únicamente con un plan de pago activo.";$("statsContent").innerHTML=`<div class="notice">Tu plan ${escapeHTML(activePlan)} no incluye estadísticas. Label cuesta US$59 y Label Pro US$89.</div>`;return;}
+ const entries=Array.isArray(royaltyEntries)?royaltyEntries:[];
+ const totalStreams=entries.reduce((n,e)=>n+Math.max(0,Number(e.streams)||0),0);
+ const platforms=[...new Set(entries.map(e=>String(e.platform||"").trim()).filter(Boolean))];
+ const periods={};entries.forEach(e=>{const key=String(e.period_start||"Sin fecha").slice(0,10);periods[key]=(periods[key]||0)+Math.max(0,Number(e.streams)||0);});
+ const periodRows=Object.entries(periods).sort((a,b)=>a[0].localeCompare(b[0])).slice(-12);
+ const maxStreams=Math.max(1,...periodRows.map(x=>x[1]));
+ const chart=periodRows.length?'<div class="smilx-stream-chart" role="img" aria-label="Gráfico de reproducciones por período">'+periodRows.map(([period,count])=>`<div class="smilx-stream-bar-wrap"><div class="smilx-stream-value">${count.toLocaleString()}</div><div class="smilx-stream-bar" style="height:${Math.max(4,Math.round(count/maxStreams*150))}px"></div><div class="smilx-stream-label">${escapeHTML(period==="Sin fecha"?period:new Date(period+"T12:00:00").toLocaleDateString("es-DO",{month:"short",year:"2-digit"}))}</div></div>`).join("")+'</div>':'<div class="empty">Todavía no hay reproducciones importadas. Cuando cargues reportes CSV oficiales con la columna <strong>streams</strong>, el gráfico mostrará los datos reales.</div>';
+ const platformRows=platforms.map(platform=>{const count=entries.filter(e=>String(e.platform||"").trim()===platform).reduce((n,e)=>n+Math.max(0,Number(e.streams)||0),0);return `<tr><td>${escapeHTML(platform)}</td><td>${count.toLocaleString()}</td></tr>`;}).join("");
+ $("statsPlanMessage").textContent=activePlan==="Label Pro"?"Label Pro: estadísticas de reproducciones basadas en reportes oficiales importados.":"Label: resumen de reproducciones y actividad del catálogo.";
+ $("statsContent").innerHTML='<div class="stat-grid">'+statsMarkup()+'</div><div class="admin-royalty-grid" style="margin-top:16px"><div class="admin-royalty-card"><span class="small-note">Reproducciones registradas</span><strong>'+totalStreams.toLocaleString()+'</strong><span class="small-note">Suma de streams en reportes importados</span></div><div class="admin-royalty-card"><span class="small-note">Plataformas con reportes</span><strong>'+platforms.length+'</strong><span class="small-note">Fuentes registradas</span></div><div class="admin-royalty-card"><span class="small-note">Filas de reportes</span><strong>'+entries.length.toLocaleString()+'</strong><span class="small-note">Movimientos asociados a tu cuenta</span></div></div><h2 style="margin-top:22px">Reproducciones por período</h2>'+chart+(platformRows?'<h2 style="margin-top:22px">Reproducciones por plataforma</h2><div class="table-wrap"><table><thead><tr><th>Plataforma</th><th>Streams</th></tr></thead><tbody>'+platformRows+'</tbody></table></div>':'')+(activePlan==="Label Pro"?'<h2 style="margin-top:22px">Detalle de lanzamientos</h2><div class="table-wrap"><table><thead><tr><th>Lanzamiento</th><th>Artista</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>'+releaseCache.map(r=>`<tr><td>${escapeHTML(r.title||"")}</td><td>${escapeHTML(r.artist_name||"")}</td><td>${escapeHTML(r.status||"pending")}</td><td>${escapeHTML(r.release_date||"")}</td></tr>`).join("")+'</tbody></table></div>':'')+'<p class="small-note">Los datos provienen únicamente de reportes oficiales CSV importados; no representan estadísticas en tiempo real de Spotify u otras tiendas.</p>';
+}
+$("refreshPlanBtn")?.addEventListener("click",async()=>{try{await loadPlan();$("refreshPlanMessage").textContent="Plan verificado correctamente.";}catch(e){$("refreshPlanMessage").textContent="No se pudo verificar el plan: "+e.message;}});
+async function loadStatistics(){
+ await loadPlan();await loadReleases();
+ if(activePlan==="Free"){renderStats([]);return;}
+ $("statsContent").innerHTML='<div class="empty">Consultando reproducciones registradas…</div>';
+ try{const {data,error}=await supabase.rpc("smilx_artist_list_royalties");if(error)throw error;renderStats(Array.isArray(data)?data:[]);}
+ catch(error){renderStats([]);const note=document.createElement("p");note.className="small-note";note.textContent="No se pudieron consultar los reportes: "+(error.message||"Error de conexión")+". Verifica el módulo SQL de regalías.";$("statsContent").appendChild(note);}
+}
+async function loadSplits(){
+ if(!currentUser)return;
+ const {data,error}=await supabase.from("release_splits").select("*").eq("owner_id",currentUser.id).order("created_at",{ascending:false});
+ if(error){$("splitList").innerHTML='<div class="notice">Primero ejecuta el archivo SQL de configuración. Detalle: '+escapeHTML(error.message)+'</div>';return;}
+ const rows=data||[];if(!rows.length){$("splitList").innerHTML='<div class="empty">Todavía no has agregado colaboradores.</div>';return;}
+ $("splitList").innerHTML='<table><thead><tr><th>Lanzamiento</th><th>Colaborador</th><th>Correo</th><th>Porcentaje</th><th></th></tr></thead><tbody>'+rows.map(x=>{const r=releaseCache.find(y=>String(y.id)===String(x.release_id));return `<tr><td>${escapeHTML(r?.title||"Lanzamiento")}</td><td>${escapeHTML(x.collaborator_name||"")}</td><td>${escapeHTML(x.collaborator_email||"")}</td><td>${Number(x.percentage).toFixed(2)}%</td><td><button class="secondary" onclick="removeSplit('${String(x.id)}')">Quitar</button></td></tr>`}).join("")+'</tbody></table>';
+}
+$("splitForm").addEventListener("submit",async e=>{
+ e.preventDefault();const releaseId=$("splitRelease").value,email=$("splitEmail").value.trim().toLowerCase(),name=$("splitName").value.trim(),percentage=Number($("splitPercent").value);
+ if(!releaseId||!email||!name||percentage<=0||percentage>100){showMessage("splitMessage","Completa los datos y usa un porcentaje válido.");return;}
+ const {data:registered,error:verifyError}=await supabase.rpc("smilx_artist_email_exists",{p_email:email});
+ if(verifyError){showMessage("splitMessage","Ejecuta el SQL de configuración antes de usar divisiones: "+verifyError.message);return;}
+ if(!registered){showMessage("splitMessage","Ese correo no pertenece a una cuenta registrada en SMILX MUSIC.");return;}
+ const {data:rows,error:readError}=await supabase.from("release_splits").select("percentage").eq("owner_id",currentUser.id).eq("release_id",releaseId);
+ if(readError){showMessage("splitMessage",readError.message);return;}
+ const used=(rows||[]).reduce((a,x)=>a+Number(x.percentage||0),0);
+ if(used+percentage>100.0001){showMessage("splitMessage",`Ya has asignado ${used.toFixed(2)}%. Solo quedan ${(100-used).toFixed(2)}%.`);return;}
+ const {error}=await supabase.from("release_splits").insert({owner_id:currentUser.id,release_id:releaseId,collaborator_email:email,collaborator_name:name,percentage});
+ if(error){showMessage("splitMessage","No se pudo guardar: "+error.message);return;}
+ e.target.reset();showMessage("splitMessage","División guardada. Los pagos automáticos aún no están conectados.");await loadSplits();
+});
+window.removeSplit=async function(id){if(!confirm("¿Quitar esta división?"))return;const {error}=await supabase.from("release_splits").delete().eq("id",id).eq("owner_id",currentUser.id);if(error){alert(error.message);return;}await loadSplits();};
+
+const socialFields=["instagram_url","facebook_url","tiktok_url","youtube_url","x_url","spotify_url","apple_music_url","youtube_music_url"];
+async function loadSocialLinks(){
+ if(!currentUser)return;
+ showMessage("socialMessage","Cargando tus enlaces...");
+ const {data,error}=await supabase.from("artist_social_links").select("*").eq("user_id",currentUser.id).maybeSingle();
+ if(error){showMessage("socialMessage","No se pudieron cargar los enlaces: "+error.message);return;}
+ socialFields.forEach(field=>$(field).value=data?.[field]||"");
+ showMessage("socialMessage",data?"Tus enlaces están cargados.":"Agrega tus perfiles y guárdalos.");
+}
+function validateSocialUrl(value,label){
+ if(!value.trim())return "";
+ let url;try{url=new URL(value.trim());}catch{return label+": escribe un enlace válido que comience con https://";}
+ if(url.protocol!=="https:")return label+": utiliza un enlace seguro que comience con https://";
+ return "";
+}
+$("socialForm").addEventListener("submit",async event=>{
+ event.preventDefault();if(!currentUser){showMessage("socialMessage","Debes iniciar sesión.");return;}
+ const button=$("saveSocial");button.disabled=true;button.textContent="Guardando...";showMessage("socialMessage","Revisando tus enlaces...");
+ const values={user_id:currentUser.id};
+ for(const field of socialFields){
+  const value=$(field).value.trim(),label=field.replace("_url","").replaceAll("_"," "),problem=validateSocialUrl(value,label);
+  if(problem){showMessage("socialMessage",problem);button.disabled=false;button.textContent="Guardar mis enlaces";$(field).focus();return;}
+  values[field]=value||null;
+ }
+ try{
+  const {error}=await supabase.from("artist_social_links").upsert(values,{onConflict:"user_id"});if(error)throw error;
+  showMessage("socialMessage","¡Tus enlaces se guardaron correctamente!");
+ }catch(error){showMessage("socialMessage","Error al guardar: "+(error.message||"Intenta nuevamente."));}
+ finally{button.disabled=false;button.textContent="Guardar mis enlaces";}
+});
+
+$("faviconFile").addEventListener("change",()=>{
+ const file=$("faviconFile").files[0];if(!file)return;
+ if(!["image/png","image/jpeg","image/x-icon"].includes(file.type)){alert("Selecciona una imagen PNG, JPG o ICO.");$("faviconFile").value="";return;}
+ if(file.size>5*1024*1024){alert("La imagen supera los 5 MB.");return;}
+ const reader=new FileReader();reader.onload=()=>{faviconData=reader.result;$("faviconPreview").src=faviconData;$("faviconPreview").style.display="block";};reader.readAsDataURL(file);
+});
+$("saveFavicon").addEventListener("click",()=>{
+ if(!faviconData){alert("Primero selecciona una fotografía.");return;}
+ $("favicon").href=faviconData;try{localStorage.setItem("smilx_custom_favicon",faviconData);}catch(e){}
+ alert("Icono aplicado en este navegador.");
+});
+try{const savedIcon=localStorage.getItem("smilx_custom_favicon");if(savedIcon)$("favicon").href=savedIcon;}catch(e){}
+
+$("profileForm").addEventListener("submit",event=>{
+ event.preventDefault();alert("El formulario visual está preparado. Para guardar el perfil hay que conectar las columnas de artist_profiles.");
+});
+const SUPPORT_EMAIL = "smilxmusic@gmail.com";
+function supportBotAnswer(message){
+ const m=message.toLowerCase();
+ if(/retiro|retirar|paypal|regal[ií]a/.test(m)) return "Los retiros se realizan únicamente por PayPal. Necesitas un mínimo de US$25, puedes solicitar uno al mes y el saldo debe ser verificado. En Regalías y retiros escribe el correo asociado a tu cuenta PayPal.";
+ if(/plan|precio|free|basic|label|pro/.test(m)) return "Puedes revisar los planes y sus condiciones en la página de inicio. Los planes de pago requieren que SMILX MUSIC conecte y confirme el cobro antes de activarlos.";
+ if(/subir|canci[oó]n|m[uú]sica|lanzamiento|spotify|youtube/.test(m)) return "Para preparar un lanzamiento, entra en Subir música y completa los datos del lanzamiento. La distribución real depende de la integración con un proveedor autorizado.";
+ if(/cuenta|registro|contrase[nñ]a|iniciar sesi[oó]n|login/.test(m)) return "Puedes crear tu cuenta desde Crear cuenta o entrar desde Iniciar sesión. Si no puedes acceder, envía un ticket al equipo de soporte.";
+ return "Gracias por escribir a SMILX MUSIC. Si necesitas que una persona revise tu caso, pulsa ‘Comunícame con un agente’.";
+}
+async function notifySupportTicket(ticketId){
+ try { const {error}=await supabase.functions.invoke("smilx-support-notify",{body:{ticket_id:ticketId}}); return !error; }
+ catch(_){ return false; }
+}
+const chatPanel=$("smilxChatPanel"),chatMessages=$("smilxChatMessages");
+function addChatMessage(text,who="bot"){
+ const bubble=document.createElement("div");bubble.className="smilx-chat-bubble "+who;bubble.textContent=text;
+ const stamp=document.createElement("small");stamp.textContent=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});bubble.appendChild(stamp);chatMessages.appendChild(bubble);chatMessages.scrollTop=chatMessages.scrollHeight;
+}
+$("smilxChatToggle").addEventListener("click",()=>{chatPanel.hidden=!chatPanel.hidden;if(!chatPanel.hidden){$("supportBotInput").focus();chatMessages.scrollTop=chatMessages.scrollHeight;}});
+$("smilxChatClose").addEventListener("click",()=>chatPanel.hidden=true);
+async function sendChatMessage(msg){
+ addChatMessage(msg,"user");
+ if(currentUser && currentSupportTicketId){
+  const {error}=await supabase.from("smilx_support_messages").insert({ticket_id:currentSupportTicketId,user_id:currentUser.id,sender:"artist",message:msg});
+  if(error)addChatMessage("No se pudo guardar este mensaje en el caso: "+error.message);
+ }
+ addChatMessage(supportBotAnswer(msg));
+}
+$("smilxChatForm").addEventListener("submit",async event=>{
+ event.preventDefault();const msg=$("supportBotInput").value.trim();if(!msg)return;
+ $("supportBotInput").value="";await sendChatMessage(msg);
+});
+async function refreshSupportChat(){
+ if(!currentUser||!currentSupportTicketId||chatPanel.hidden)return;
+ const {data,error}=await supabase.from("smilx_support_messages").select("id,sender,message,created_at").eq("ticket_id",currentSupportTicketId).order("created_at",{ascending:true}).limit(100);
+ if(error)return;
+ for(const m of data||[]){if(chatMessages.querySelector('[data-message-id="'+m.id+'"]'))continue;
+  const bubble=document.createElement("div");bubble.className="smilx-chat-bubble "+(m.sender==="support"?"bot":"user");bubble.dataset.messageId=m.id;bubble.textContent=m.message;
+  const stamp=document.createElement("small");stamp.textContent=new Date(m.created_at).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});bubble.appendChild(stamp);chatMessages.appendChild(bubble);
+ }
+ chatMessages.scrollTop=chatMessages.scrollHeight;
+}
+setInterval(refreshSupportChat,12000);
+$("supportAgentBtn").addEventListener("click",async()=>{
+ if(!currentUser){addChatMessage("Para abrir un caso con el equipo, primero inicia sesión en tu cuenta.");return;}
+ const btn=$("supportAgentBtn");btn.disabled=true;btn.textContent="Enviando solicitud...";
+ const {data,error}=await supabase.from("smilx_support_tickets").insert({user_id:currentUser.id,subject:"Solicitud para hablar con un agente",message:"El artista solicita continuar esta conversación con un agente de soporte."}).select("id").single();
+ if(error){addChatMessage("No se pudo registrar tu solicitud: "+error.message);}
+ else {currentSupportTicketId=data.id;await supabase.from("smilx_support_messages").insert({ticket_id:data.id,user_id:currentUser.id,sender:"artist",message:"Solicito hablar con un agente de soporte."});const sent=await notifySupportTicket(data.id);addChatMessage(sent?"Tu solicitud quedó registrada y se notificó al equipo de SMILX MUSIC. Puedes continuar escribiendo aquí; revisaremos las respuestas del equipo automáticamente.":"Tu solicitud quedó guardada. La notificación por correo aún no se ha confirmado. Puedes continuar escribiendo aquí y consultar las respuestas cuando el equipo las registre.");await refreshSupportChat();await loadSupportHistory();}
+ btn.disabled=false;btn.textContent="Hablar con un agente";
+});
+async function loadSupportHistory(){
+ if(!currentUser)return;
+ const box=$("supportHistory");box.textContent="Cargando tus mensajes...";
+ const {data,error}=await supabase.from("smilx_support_tickets").select("id,subject,message,status,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(20);
+ if(error){box.textContent="No se pudieron cargar tus mensajes: "+error.message;return;}
+ if(!data?.length){box.textContent="Todavía no has enviado mensajes al soporte.";return;}
+ const tickets=await Promise.all(data.map(async t=>{const result=await supabase.from("smilx_support_messages").select("id,sender,message,created_at").eq("ticket_id",t.id).order("created_at",{ascending:true}).limit(100);return {...t,messages:result.error?[]:(result.data||[])};}));
+ box.innerHTML=tickets.map(t=>`<article class="notice" style="margin:10px 0"><strong>${escapeHTML(t.subject)}</strong><p>${escapeHTML(t.message)}</p><small>Estado: ${escapeHTML(t.status)} · ${new Date(t.created_at).toLocaleString()}</small><div class="admin-support-thread">${t.messages.length?t.messages.map(m=>`<div class="admin-support-message ${m.sender==="support"?"support":"artist"}"><strong>${m.sender==="support"?"SMILX MUSIC · Soporte":"Tú"}</strong><br>${escapeHTML(m.message)}<small>${m.created_at?new Date(m.created_at).toLocaleString():""}</small></div>`).join(""):'<div class="small-note">Aún no hay respuestas del equipo.</div>'}</div><label class="small-note" for="artistReply-${escapeHTML(t.id)}">Responder a este caso</label><textarea id="artistReply-${escapeHTML(t.id)}" data-artist-ticket-reply="${escapeHTML(t.id)}" maxlength="5000" placeholder="Escribe un mensaje para soporte..."></textarea><button class="secondary" type="button" data-artist-ticket-send="${escapeHTML(t.id)}">Enviar respuesta</button></article>`).join("");
+}
+$("supportHistory")?.addEventListener("click",async event=>{
+ const button=event.target.closest("[data-artist-ticket-send]");if(!button)return;
+ if(!currentUser){showMessage("supportMessage","Inicia sesión para responder.");return;}
+ const ticketId=button.dataset.artistTicketSend,field=$("artistReply-"+ticketId),message=field?.value.trim()||"";
+ if(!message){alert("Escribe tu respuesta antes de enviarla.");return;}
+ button.disabled=true;
+ const {error}=await supabase.from("smilx_support_messages").insert({ticket_id:ticketId,user_id:currentUser.id,sender:"artist",message});
+ if(error){showMessage("supportMessage","No se pudo enviar la respuesta: "+error.message);button.disabled=false;return;}
+ showMessage("supportMessage","Tu respuesta fue enviada al equipo de soporte.");await loadSupportHistory();
+});
+$("supportBtn").addEventListener("click",async()=>{
+ if(!currentUser){showMessage("supportMessage","Inicia sesión para enviar un mensaje al soporte.");return;}
+ const subject=$("supportSubject").value.trim(),message=$("supportText").value.trim();
+ if(!subject||!message){showMessage("supportMessage","Completa el asunto y el mensaje.");return;}
+ const btn=$("supportBtn");btn.disabled=true;btn.textContent="Enviando...";
+ try{
+  const {data,error}=await supabase.from("smilx_support_tickets").insert({user_id:currentUser.id,subject,message}).select("id").single();if(error)throw error;
+  const saved=await supabase.from("smilx_support_messages").insert({ticket_id:data.id,user_id:currentUser.id,sender:"artist",message});if(saved.error)throw saved.error;
+  const notified=await notifySupportTicket(data.id);
+  $("supportSubject").value="";$("supportText").value="";showMessage("supportMessage",notified?"Tu mensaje fue enviado y el equipo recibió la notificación.":"Tu mensaje quedó guardado. La notificación por correo aún no se ha confirmado.");await loadSupportHistory();
+ }catch(error){showMessage("supportMessage","No se pudo enviar: "+(error.message||"Error desconocido"));}
+ finally{btn.disabled=false;btn.textContent="Enviar mensaje a soporte";}
+});
+async function loadArtistRoyaltySummary(){
+ if(!currentUser)return;
+ const message=$("artistRoyaltyMessage"),totalsBox=$("artistRoyaltyTotals"),rowsBox=$("artistRoyaltyRows"),button=$("artistRoyaltyRefresh");
+ if(!message||!totalsBox||!rowsBox)return;
+ message.textContent="Consultando tus regalías registradas…";if(button)button.disabled=true;
+ try{
+  // RPC vigente del módulo de regalías: devuelve una lista de movimientos del artista autenticado.
+  const {data,error}=await supabase.rpc("smilx_artist_list_royalties");if(error)throw error;
+  const entries=Array.isArray(data)?data:[];
+  const totals=entries.reduce((acc,e)=>{const currency=String(e.currency||"USD");acc[currency]=(acc[currency]||0)+Number(e.artist_amount||0);return acc;},{});
+  const currencies=Object.entries(totals);
+  totalsBox.innerHTML=currencies.length?currencies.map(([currency,amount])=>`<div class="card">Regalías para el artista<div class="metric">${escapeHTML(currency)} ${amount.toFixed(2)}</div><div class="metric-label">Importe contable · no retirable todavía</div></div>`).join(""):'<div class="card">Regalías registradas<div class="metric">—</div><div class="metric-label">Todavía no hay reportes asociados a tu cuenta</div></div>';
+  rowsBox.innerHTML=entries.length?entries.map(e=>`<tr><td>${escapeHTML(e.period_start||"—")} – ${escapeHTML(e.period_end||"—")}</td><td>${escapeHTML(e.platform||"—")}</td><td>${escapeHTML(e.release_title||"—")}</td><td>${Number(e.streams||0).toLocaleString()}</td><td>${escapeHTML(e.currency||"")} ${Number(e.artist_amount||0).toFixed(2)}</td><td>${escapeHTML(e.plan_at_import||"—")}</td></tr>`).join(""):'<tr><td colspan="6">No hay regalías importadas para tu cuenta todavía.</td></tr>';
+  message.textContent=`Consulta completada: ${entries.length} movimientos encontrados. Los importes no se suman al saldo de retiro.`;
+ }catch(error){
+  totalsBox.innerHTML='<div class="card">Regalías registradas<div class="metric">—</div><div class="metric-label">No se pudo consultar el resumen</div></div>';
+  rowsBox.innerHTML='<tr><td colspan="6">No se pudo cargar el historial de regalías.</td></tr>';
+  message.textContent="No se pudieron consultar tus regalías: "+(error.message||"Error desconocido")+". Verifica que el SQL del módulo de regalías esté instalado.";
+ }finally{if(button)button.disabled=false;}
+}
+$("artistRoyaltyRefresh")?.addEventListener("click",loadArtistRoyaltySummary);
+
+async function loadWithdrawalHistory(){
+ if(!currentUser)return;
+ const box=$("withdrawHistory");box.textContent="Cargando tus solicitudes...";
+ const {data,error}=await supabase.from("smilx_withdrawal_requests").select("id,amount,method,status,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(20);
+ if(error){box.textContent="No se pudieron cargar tus solicitudes: "+error.message;return;}
+ if(!data?.length){box.textContent="Todavía no has solicitado retiros.";return;}
+ box.innerHTML=data.map(w=>`<article class="notice" style="margin:10px 0"><strong>US$${Number(w.amount).toFixed(2)} · ${escapeHTML(w.method)}</strong><p>Estado: ${escapeHTML(w.status)}</p><small>${new Date(w.created_at).toLocaleString()}</small></article>`).join("");
+}
+$("withdrawForm").addEventListener("submit",async event=>{
+ event.preventDefault();if(!currentUser){showMessage("withdrawMessage","Inicia sesión para solicitar un retiro.");return;}
+ const amount=Number($("withdrawAmount").value),method="PayPal",paypalEmail=$("withdrawPaypalEmail").value.trim();
+ if(!Number.isFinite(amount)||amount<25||!/^\S+@\S+\.\S+$/.test(paypalEmail)){showMessage("withdrawMessage","El retiro mínimo es US$25. Escribe un correo de PayPal válido.");return;}
+ const btn=$("withdrawBtn");btn.disabled=true;btn.textContent="Enviando solicitud...";
+ const {error}=await supabase.from("smilx_withdrawal_requests").insert({user_id:currentUser.id,amount,method,account_details:"PayPal: "+paypalEmail});
+ if(error){showMessage("withdrawMessage","No se pudo registrar la solicitud: "+error.message);}
+ else{event.target.reset();showMessage("withdrawMessage","Solicitud registrada. SMILX MUSIC debe verificar tu saldo y aprobar el pago; esto no significa que el dinero ya fue enviado.");await loadWithdrawalHistory();}
+ btn.disabled=false;btn.textContent="Solicitar retiro";
+});
+
+
+// Módulo administrativo: revisión de lanzamientos enviados por artistas.
+let adminReleasesCache = [];
+function releaseText(r, keys, fallback="—"){
+ for(const key of keys){const value=r?.[key];if(value!==undefined&&value!==null&&String(value).trim()!=="")return String(value);}
+ return fallback;
+}
+function renderAdminReleases(){
+ const host=$("adminReleasesList");if(!host)return;
+ if(!adminReleasesCache.length){host.innerHTML='<div class="empty">No hay lanzamientos registrados todavía.</div>';return;}
+ host.innerHTML=adminReleasesCache.map((item,index)=>{
+  const r=item.release_data||{};const status=String(r.status||"pending").toLowerCase();
+  const title=releaseText(r,["title","release_title"],"Sin título");
+  const artist=releaseText(r,["artist_name","artist_full_name"],"Artista sin nombre");
+  const date=releaseText(r,["release_date","created_at"]);
+  const coverPath=releaseText(r,["cover_path","cover_file_path"],"");
+  const audioPath=releaseText(r,["audio_path","audio_file_path"],"");
+  const badge=status==="available"?"Disponible":status==="rejected"?"Rechazado":"Pendiente";
+  const badgeClass=status==="available"?"available":status==="rejected"?"rejected":"pending";
+  return `<article class="admin-release-card" data-release-index="${index}"><div class="admin-release-cover"><div class="empty">Cargando portada…</div></div><h3>${escapeHTML(title)}</h3><div class="admin-release-meta"><strong>${escapeHTML(artist)}</strong><br>Correo: ${escapeHTML(item.artist_email||"—")}<br>Tipo: ${escapeHTML(releaseText(r,["release_type"]))}<br>Género: ${escapeHTML(releaseText(r,["genre"]))}<br>Idioma: ${escapeHTML(releaseText(r,["language"]))}<br>Fecha: ${escapeHTML(date)}<br>Estado: <span class="status ${badgeClass}">${badge}</span><br>Productor: ${escapeHTML(releaseText(r,["producer"]))}<br>Compositor: ${escapeHTML(releaseText(r,["composer"]))}<br>Créditos: ${escapeHTML(releaseText(r,["credits"]))}</div><div class="admin-release-audio">${audioPath?'<p class="small-note">Preparando reproductor…</p>':'<p class="small-note">No se encontró la ruta del audio.</p>'}</div><div class="admin-release-actions"><button class="primary" type="button" data-review-status="available" data-release-id="${escapeHTML(r.id||"")}" ${status==="available"?"disabled":""}>Aprobar</button><button class="secondary" type="button" data-review-status="rejected" data-release-id="${escapeHTML(r.id||"")}" ${status==="rejected"?"disabled":""}>Rechazar</button><button class="secondary" type="button" data-review-status="pending" data-release-id="${escapeHTML(r.id||"")}">Volver a pendiente</button></div></article>`;
+ }).join("");
+ adminReleasesCache.forEach(async(item,index)=>{
+  const r=item.release_data||{};const card=host.querySelector(`[data-release-index="${index}"]`);if(!card)return;
+  const cp=r.cover_path||r.cover_file_path;const ap=r.audio_path||r.audio_file_path;
+  if(cp){const {data,error}=await supabase.storage.from("cover-art").createSignedUrl(cp,3600);if(!error&&data?.signedUrl){const box=card.querySelector(".admin-release-cover");box.innerHTML=`<img src="${escapeHTML(data.signedUrl)}" alt="Portada de ${escapeHTML(r.title||"lanzamiento")}">`;}}
+  if(ap){const {data,error}=await supabase.storage.from("music-audio").createSignedUrl(ap,3600);if(!error&&data?.signedUrl){const box=card.querySelector(".admin-release-audio");box.innerHTML=`<audio controls preload="none" src="${escapeHTML(data.signedUrl)}">Tu navegador no admite audio HTML5.</audio>`;}else{const box=card.querySelector(".admin-release-audio");box.innerHTML='<p class="small-note">No se pudo abrir el audio. Revisa los permisos del almacenamiento.</p>';}}
+ });
+}
+async function loadAdminReleases(){
+ const message=$("adminReleasesMessage");if(!message)return;
+ message.textContent="Consultando lanzamientos en Supabase…";$("adminRefreshReleases").disabled=true;
+ try{
+  const {data,error}=await supabase.rpc("smilx_admin_list_releases");if(error)throw error;
+  adminReleasesCache=Array.isArray(data)?data:[];
+  $("adminReleaseCount").textContent=String(adminReleasesCache.length);
+  $("adminPendingReleaseCount").textContent=String(adminReleasesCache.filter(x=>String(x.release_data?.status||"pending").toLowerCase()==="pending").length);
+  message.textContent=`Consulta completada. Se encontraron ${adminReleasesCache.length} lanzamientos.`;
+  renderAdminReleases();
+ }catch(error){message.textContent="No se pudieron consultar los lanzamientos: "+(error.message||"Error desconocido");$("adminReleasesList").innerHTML='<div class="empty">No se pudo cargar el catálogo de revisión.</div>';}
+ finally{$("adminRefreshReleases").disabled=false;}
+}
+async function reviewAdminRelease(id,status){
+ const item=adminReleasesCache.find(x=>String(x.release_data?.id)===String(id));if(!item)return;
+ const title=item.release_data?.title||item.release_data?.release_title||"este lanzamiento";
+ const action=status==="available"?"aprobar":status==="rejected"?"rechazar":"devolver a pendiente";
+ if(!confirm(`¿Deseas ${action} “${title}”?`))return;
+ try{const {error}=await supabase.rpc("smilx_admin_review_release",{p_release_id:id,p_status:status});if(error)throw error;$("adminReleasesMessage").textContent="Estado actualizado correctamente.";await loadAdminReleases();}
+ catch(error){$("adminReleasesMessage").textContent="No se pudo actualizar el lanzamiento: "+(error.message||"Error desconocido");}
+}
+$("adminReleasesList")?.addEventListener("click",event=>{const button=event.target.closest("[data-review-status]");if(button)reviewAdminRelease(button.dataset.releaseId,button.dataset.reviewStatus);});
+$("adminRefreshReleases")?.addEventListener("click",loadAdminReleases);
+$("adminOpenReleases")?.addEventListener("click",()=>{$("adminReleasesSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminReleases();});
+
+// Módulo administrativo: gestión de artistas mediante funciones RPC protegidas.
+let adminArtistsCache = [];
+let selectedAdminArtist = null;
+function renderAdminArtists(){
+ const q=($("adminArtistSearch").value||"").trim().toLowerCase();
+ const rows=adminArtistsCache.filter(a=>String(a.artist_name||"").toLowerCase().includes(q)||String(a.email||"").toLowerCase().includes(q));
+ if(!rows.length){$("adminArtistsRows").innerHTML='<tr><td colspan="6">No hay cuentas que coincidan con la búsqueda.</td></tr>';return;}
+ $("adminArtistsRows").innerHTML=rows.map(a=>{
+  const status=String(a.account_status||"active").toLowerCase();
+  const statusLabel=status==="active"?"Activa":"Suspendida";
+  const statusClass=status==="active"?"available":"rejected";
+  const created=a.created_at?new Date(a.created_at).toLocaleDateString():"—";
+  return `<tr><td><strong>${escapeHTML(a.artist_name||"Sin nombre")}</strong></td><td>${escapeHTML(a.email||"—")}</td><td>${escapeHTML(a.plan||"Free")}</td><td><span class="status ${statusClass}">${statusLabel}</span></td><td>${escapeHTML(created)}</td><td><button class="secondary" type="button" data-admin-open="${escapeHTML(a.user_id)}">Ver / administrar</button></td></tr>`;
+ }).join("");
+}
+function renderAdminArtistDetails(a){
+ selectedAdminArtist=a;
+ const box=$("adminArtistDetails");
+ const profile=a.profile_data||{};
+ const profileText=JSON.stringify(profile,null,2);
+ const suspended=String(a.account_status||"active").toLowerCase()==="suspended";
+ box.style.display="block";
+ box.innerHTML=`<div class="admin-toolbar"><div><div class="eyebrow">EXPEDIENTE DE ARTISTA</div><h3>${escapeHTML(a.artist_name||"Sin nombre")}</h3><p class="muted">${escapeHTML(a.email||"Sin correo")}</p></div><button class="secondary" type="button" id="adminCloseArtistDetails">Cerrar</button></div>
+ <div class="admin-detail-grid">
+  <div class="admin-detail-item"><span>ID DE USUARIO</span>${escapeHTML(a.user_id||"—")}</div>
+  <div class="admin-detail-item"><span>FECHA DE REGISTRO</span>${escapeHTML(a.created_at?new Date(a.created_at).toLocaleString():"—")}</div>
+  <div class="admin-detail-item"><span>PLAN ACTUAL</span>${escapeHTML(a.plan||"Free")}</div>
+  <div class="admin-detail-item"><span>ESTADO DE LA CUENTA</span>${suspended?"Suspendida":"Activa"}</div>
+ </div>
+ <div class="field"><label for="adminArtistPlanSelect">Cambiar plan del artista</label><select id="adminArtistPlanSelect"><option value="Free">Free — Gratis</option><option value="Basic">Basic — US$19.90</option><option value="Label">Label — US$59</option><option value="Label Pro">Label Pro — US$89</option></select></div>
+ <div class="admin-detail-actions"><button class="primary" type="button" id="adminSaveArtistPlan">Guardar plan</button>${suspended?'<button class="secondary" type="button" id="adminReactivateArtist">Reactivar cuenta</button>':'<button class="secondary" type="button" id="adminSuspendArtist">Suspender cuenta</button>'}</div>
+ <p class="small-note" id="adminArtistActionMessage" role="status">Los cambios se guardan en Supabase. La suspensión bloquea el inicio de sesión de esta cuenta.</p>
+ <details style="margin-top:14px"><summary style="cursor:pointer;color:#65baff">Ver datos del perfil registrados</summary><pre>${escapeHTML(profileText)}</pre></details>`;
+ $("adminArtistPlanSelect").value=["Free","Basic","Label","Label Pro"].includes(a.plan)?a.plan:"Free";
+ $("adminCloseArtistDetails").addEventListener("click",()=>{box.style.display="none";selectedAdminArtist=null;});
+ $("adminSaveArtistPlan").addEventListener("click",()=>saveAdminArtistChanges("plan"));
+ if(suspended)$("adminReactivateArtist").addEventListener("click",()=>saveAdminArtistChanges("active"));
+ else $("adminSuspendArtist").addEventListener("click",()=>saveAdminArtistChanges("suspended"));
+ box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+async function saveAdminArtistChanges(action){
+ if(!selectedAdminArtist)return;
+ const plan=$("adminArtistPlanSelect").value;
+ const label=action==="suspended"?"suspender":action==="active"?"reactivar":"cambiar el plan de";
+ if(!confirm(action==="suspended"?`¿Seguro que deseas suspender la cuenta de ${selectedAdminArtist.email}? No podrá iniciar sesión hasta reactivarla.`:action==="active"?`¿Deseas reactivar la cuenta de ${selectedAdminArtist.email}?`:`¿Guardar el plan ${plan} para ${selectedAdminArtist.email}?`))return;
+ const msg=$("adminArtistActionMessage");msg.textContent="Guardando cambios en Supabase...";
+ const buttons=$("adminArtistDetails").querySelectorAll("button");buttons.forEach(b=>b.disabled=true);
+ try{
+  const {error}=await supabase.rpc("smilx_admin_update_artist",{p_user_id:selectedAdminArtist.user_id,p_plan:plan,p_account_action:action});
+  if(error)throw error;
+  msg.textContent="Cambios guardados correctamente.";
+  await loadAdminArtists();
+  const updated=adminArtistsCache.find(x=>String(x.user_id)===String(selectedAdminArtist?.user_id));
+  if(updated)renderAdminArtistDetails(updated);else $("adminArtistDetails").style.display="none";
+ }catch(error){msg.textContent="No se pudo "+label+" la cuenta: "+(error.message||"Error desconocido");buttons.forEach(b=>b.disabled=false);}
+}
+async function loadAdminArtists(){
+ if(!$("adminArtistsRows"))return;
+ $("adminArtistsMessage").textContent="Consultando las cuentas en Supabase...";
+ $("adminRefreshArtists").disabled=true;
+ try{
+  const {data,error}=await supabase.rpc("smilx_admin_list_artists");if(error)throw error;
+  adminArtistsCache=Array.isArray(data)?data:[];
+  $("adminArtistCount").textContent=String(adminArtistsCache.length);
+  $("adminPaidCount").textContent=String(adminArtistsCache.filter(a=>String(a.plan||"Free")!=="Free"&&String(a.plan_status||"active").toLowerCase()==="active").length);
+  $("adminArtistsMessage").textContent="Consulta completada. Se muestran "+adminArtistsCache.length+" cuentas.";
+  renderAdminArtists();
+ }catch(error){
+  $("adminArtistCount").textContent="—";$("adminPaidCount").textContent="—";
+  $("adminArtistsMessage").textContent="No se pudieron consultar las cuentas: "+(error.message||"Error desconocido")+". Ejecuta el SQL de gestión administrativa.";
+  $("adminArtistsRows").innerHTML='<tr><td colspan="6">No se pudo cargar el listado. No se modificó ninguna cuenta.</td></tr>';
+ }finally{$("adminRefreshArtists").disabled=false;}
+}
+$("adminArtistsRows")?.addEventListener("click",event=>{
+ const button=event.target.closest("[data-admin-open]");if(!button)return;
+ const artist=adminArtistsCache.find(a=>String(a.user_id)===String(button.dataset.adminOpen));if(artist)renderAdminArtistDetails(artist);
+});
+$("adminRefreshArtists")?.addEventListener("click",loadAdminArtists);
+$("adminOpenArtists")?.addEventListener("click",()=>{$("adminArtistsSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminArtists();});
+$("adminArtistSearch")?.addEventListener("input",renderAdminArtists);
+
+let adminWithdrawalsCache = [];
+function withdrawalStatusLabel(status){
+ const labels={pending:"Pendiente",approved:"Aprobada",rejected:"Rechazada",paid:"Pagada"};return labels[String(status||"").toLowerCase()]||String(status||"Sin estado");
+}
+function renderAdminWithdrawals(){
+ const host=$("adminWithdrawalsList");if(!host)return;
+ if(!adminWithdrawalsCache.length){host.innerHTML='<div class="empty">No hay solicitudes de retiro registradas.</div>';return;}
+ host.innerHTML=adminWithdrawalsCache.map(w=>{
+  const status=String(w.status||"pending").toLowerCase();
+  const date=w.requested_at||w.created_at;
+  const when=date?new Date(date).toLocaleString():"—";
+  const payout=w.payout_email||w.account_details||"No se indicó información de pago";
+  const note=w.admin_note||"";
+  let actions="";
+  if(status==="pending") actions='<button class="primary" type="button" data-withdrawal-status="approved">Aprobar</button><button class="secondary" type="button" data-withdrawal-status="rejected">Rechazar</button>';
+  else if(status==="approved") actions='<button class="primary" type="button" data-withdrawal-status="paid">Marcar como pagada</button><button class="secondary" type="button" data-withdrawal-status="rejected">Rechazar</button>';
+  return `<article class="admin-withdrawal-card" data-withdrawal-id="${escapeHTML(w.id||"")}"><h3>US$${Number(w.amount||0).toFixed(2)} · ${escapeHTML(withdrawalStatusLabel(status))}</h3><div class="admin-withdrawal-meta"><strong>Artista:</strong> ${escapeHTML(w.artist_email||"Correo no disponible")}<br><strong>Método:</strong> ${escapeHTML(w.method||"—")}<br><strong>Destino:</strong> ${escapeHTML(payout)}<br><strong>Solicitada:</strong> ${escapeHTML(when)}<br><strong>Estado:</strong> ${escapeHTML(withdrawalStatusLabel(status))}<br><strong>Nota actual:</strong> ${escapeHTML(note||"Sin nota")}</div>${status==="paid"||status==="rejected"?"":`<label class="small-note" for="withdrawalNote_${escapeHTML(w.id||"")}">Nota administrativa (opcional)</label><textarea id="withdrawalNote_${escapeHTML(w.id||"")}" placeholder="Ej.: pago verificado, motivo de rechazo…">${escapeHTML(note)}</textarea><div class="admin-withdrawal-actions">${actions}</div>`}</article>`;
+ }).join("");
+}
+async function loadAdminWithdrawals(){
+ const message=$("adminWithdrawalsMessage");if(!message)return;
+ message.textContent="Consultando solicitudes de retiro en Supabase…";$("adminRefreshWithdrawals").disabled=true;
+ try{
+  const {data,error}=await supabase.rpc("smilx_admin_list_withdrawals");if(error)throw error;
+  adminWithdrawalsCache=Array.isArray(data)?data:[];
+  $("adminWithdrawalCount").textContent=String(adminWithdrawalsCache.length);
+  $("adminWithdrawalPendingCount").textContent=String(adminWithdrawalsCache.filter(w=>String(w.status).toLowerCase()==="pending").length);
+  $("adminWithdrawalApprovedCount").textContent=String(adminWithdrawalsCache.filter(w=>String(w.status).toLowerCase()==="approved").length);
+  $("adminWithdrawalPaidCount").textContent=String(adminWithdrawalsCache.filter(w=>String(w.status).toLowerCase()==="paid").length);
+  message.textContent=`Consulta completada. Se encontraron ${adminWithdrawalsCache.length} solicitudes.`;renderAdminWithdrawals();
+ }catch(error){message.textContent="No se pudieron consultar los retiros: "+(error.message||"Error desconocido");$("adminWithdrawalsList").innerHTML='<div class="empty">No se pudo cargar el módulo de retiros. Verifica que las funciones SQL administrativas estén creadas.</div>';}
+ finally{$("adminRefreshWithdrawals").disabled=false;}
+}
+async function updateAdminWithdrawal(id,status,card){
+ const item=adminWithdrawalsCache.find(w=>String(w.id)===String(id));if(!item)return;
+ const action=status==="approved"?"aprobar":status==="rejected"?"rechazar":"marcar como pagada";
+ if(!confirm(`¿Deseas ${action} la solicitud de US$${Number(item.amount||0).toFixed(2)} de ${item.artist_email||"este artista"}?`))return;
+ const note=card.querySelector("textarea")?.value.trim()||null;
+ const buttons=card.querySelectorAll("button");buttons.forEach(b=>b.disabled=true);
+ try{
+  const {error}=await supabase.rpc("smilx_admin_update_withdrawal",{p_request_id:id,p_status:status,p_admin_note:note});if(error)throw error;
+  $("adminWithdrawalsMessage").textContent="Solicitud actualizada correctamente.";await loadAdminWithdrawals();
+ }catch(error){$("adminWithdrawalsMessage").textContent="No se pudo actualizar la solicitud: "+(error.message||"Error desconocido");buttons.forEach(b=>b.disabled=false);}
+}
+$("adminWithdrawalsList")?.addEventListener("click",event=>{const button=event.target.closest("[data-withdrawal-status]");if(!button)return;const card=button.closest("[data-withdrawal-id]");if(card)updateAdminWithdrawal(card.dataset.withdrawalId,button.dataset.withdrawalStatus,card);});
+$("adminRefreshWithdrawals")?.addEventListener("click",loadAdminWithdrawals);
+$("adminOpenWithdrawals")?.addEventListener("click",()=>{$("adminWithdrawalsSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminWithdrawals();});
+$("adminOpenRoyalties")?.addEventListener("click",()=>{$("adminRoyaltiesSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminRoyaltyImports();});
+
+// Importación manual y auditada de reportes CSV oficiales. No modifica el saldo de retiros.
+let royaltyCsvRows=[];
+function parseRoyaltyCSV(text){
+ // Acepta CSV separado por coma, punto y coma o tabulador (formatos habituales de Excel).
+ text=String(text||"").replace(/^\uFEFF/,"");
+ const firstLine=(text.split(/\r?\n/,1)[0]||"");
+ const countDelimiter=delimiter=>{let quoted=false,count=0;for(let i=0;i<firstLine.length;i++){const ch=firstLine[i];if(ch==='"'&&quoted&&firstLine[i+1]==='"'){i++;continue;}if(ch==='"'){quoted=!quoted;continue;}if(ch===delimiter&&!quoted)count++;}return count;};
+ const delimiter=[",",";","\t"].sort((a,b)=>countDelimiter(b)-countDelimiter(a))[0];
+ const rows=[];let row=[],cell="",quoted=false;
+ for(let i=0;i<text.length;i++){
+  const ch=text[i],next=text[i+1];
+  if(ch==='"'&&quoted&&next==='"'){cell+='"';i++;}
+  else if(ch==='"'){quoted=!quoted;}
+  else if(ch===delimiter&&!quoted){row.push(cell);cell="";}
+  else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&next==='\n')i++;row.push(cell);if(row.some(v=>String(v).trim()!==''))rows.push(row);row=[];cell="";}
+  else cell+=ch;
+ }
+ if(quoted)throw new Error("El CSV contiene comillas sin cerrar.");
+ if(cell!==""||row.length){row.push(cell);if(row.some(v=>String(v).trim()!==''))rows.push(row);}
+ if(!rows.length)throw new Error("El CSV está vacío.");
+ const headers=rows.shift().map(v=>String(v).trim().toLowerCase());
+ const required=["artist_email","platform","net_amount"];
+ const missing=required.filter(h=>!headers.includes(h));
+ if(missing.length)throw new Error("Faltan columnas obligatorias: "+missing.join(", "));
+ return rows.map((values,index)=>{const obj={};headers.forEach((h,i)=>obj[h]=String(values[i]??"").trim());obj._line=index+2;return obj;}).filter(o=>Object.values(o).some(v=>String(v).trim()!==""));
+}
+function royaltyEscape(v){return escapeHTML(v);}
+function downloadRoyaltyTemplate(){
+ const csv='artist_email,platform,release_title,isrc,streams,net_amount,currency,source_reference\n';
+ const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="plantilla_regalias_smilx.csv";a.click();URL.revokeObjectURL(url);
+}
+$("royaltyTemplateBtn")?.addEventListener("click",downloadRoyaltyTemplate);
+$("royaltyPreviewBtn")?.addEventListener("click",async()=>{
+ const msg=$("royaltyImportMessage"),file=$("royaltyCsvFile")?.files?.[0];$("royaltyImportBtn").disabled=true;royaltyCsvRows=[];
+ try{
+  if(!file)throw new Error("Selecciona primero un archivo CSV.");
+  if(!$("royaltyPeriodStart").value||!$("royaltyPeriodEnd").value||$("royaltyPeriodEnd").value<$("royaltyPeriodStart").value)throw new Error("Indica un período válido.");
+  const parsed=parseRoyaltyCSV(await file.text());if(!parsed.length)throw new Error("El CSV no contiene filas de datos.");if(parsed.length>5000)throw new Error("El máximo permitido es 5000 filas por archivo.");
+  const currency=$("royaltyCurrency").value;
+  parsed.forEach((r,i)=>{if(!r.artist_email||!r.artist_email.includes("@"))throw new Error("Fila "+r._line+": correo de artista no válido.");if(!r.platform)throw new Error("Fila "+r._line+": falta platform.");if(r.net_amount===""||!Number.isFinite(Number(r.net_amount))||Number(r.net_amount)<0)throw new Error("Fila "+r._line+": net_amount debe ser un número igual o mayor que cero.");if(r.streams!==""&&(!/^\d+$/.test(r.streams)))throw new Error("Fila "+r._line+": streams debe ser un entero no negativo.");if(r.currency&&r.currency.toUpperCase()!==currency)throw new Error("Fila "+r._line+": la moneda no coincide con "+currency+".");});
+  royaltyCsvRows=parsed.map(({_line,...r})=>({...r,currency:r.currency||currency}));
+  $("royaltyPreviewRows").innerHTML=royaltyCsvRows.slice(0,50).map(r=>`<tr><td>${royaltyEscape(r.artist_email)}</td><td>${royaltyEscape(r.platform)}</td><td>${royaltyEscape(r.release_title||"—")}</td><td>${royaltyEscape(r.streams||"0")}</td><td>${royaltyEscape(r.net_amount)}</td><td>${royaltyEscape(r.currency||currency)}</td></tr>`).join("");
+  $("royaltyPreviewWrap").style.display="block";$("royaltyImportBtn").disabled=false;
+  msg.textContent=`Validación local correcta: ${royaltyCsvRows.length} filas. Se muestran hasta 50. La base de datos también verificará que cada correo exista antes de guardar.`;
+ }catch(e){msg.textContent="No se pudo validar el archivo: "+(e.message||"Error");$("royaltyPreviewWrap").style.display="none";}
+});
+$("royaltyImportBtn")?.addEventListener("click",async()=>{
+ if(!royaltyCsvRows.length)return;
+ const file=$("royaltyCsvFile").files[0];if(!file)return;
+ if(!confirm(`¿Importar ${royaltyCsvRows.length} filas del reporte oficial “${file.name}”? Esta acción guardará el registro contable, pero no acreditará balances de retiro.`))return;
+ const msg=$("royaltyImportMessage"),btn=$("royaltyImportBtn");btn.disabled=true;msg.textContent="Importando y verificando artistas en Supabase…";
+ try{
+  const {data,error}=await supabase.rpc("smilx_admin_import_royalty_report",{p_file_name:file.name,p_period_start:$("royaltyPeriodStart").value,p_period_end:$("royaltyPeriodEnd").value,p_currency:$("royaltyCurrency").value,p_rows:royaltyCsvRows});
+  if(error)throw error;
+  const result=Array.isArray(data)?data[0]:data;
+  msg.textContent=`Importación guardada. Filas importadas: ${result.imported_rows} de ${result.total_rows}. Duplicados omitidos: ${result.duplicates_skipped}. Neto registrado: ${result.currency} ${Number(result.total_net||0).toFixed(2)}. No se modificó el saldo de retiros.`;
+  royaltyCsvRows=[];$("royaltyCsvFile").value="";$("royaltyPreviewWrap").style.display="none";await loadAdminRoyaltyImports();
+ }catch(e){msg.textContent="No se pudo importar: "+(e.message||"Error desconocido")+". No se acreditó ningún saldo.";btn.disabled=false;}
+});
+async function loadAdminRoyaltyImports(){
+ const msg=$("royaltyHistoryMessage");if(!msg)return;msg.textContent="Consultando historial de reportes…";$("royaltyRefreshBtn").disabled=true;
+ try{
+  const {data,error}=await supabase.rpc("smilx_admin_list_royalty_imports");if(error)throw error;
+  const rows=Array.isArray(data)?data:[];$("royaltyImportCount").textContent=String(rows.length);$("royaltyRowsCount").textContent=String(rows.reduce((n,r)=>n+Number(r.imported_rows||0),0));
+  $("royaltyLastImport").textContent=rows[0]?.created_at?new Date(rows[0].created_at).toLocaleDateString():"—";
+  $("royaltyHistoryRows").innerHTML=rows.length?rows.map(r=>`<tr><td>${royaltyEscape(r.file_name)}</td><td>${royaltyEscape(r.period_start)} – ${royaltyEscape(r.period_end)}</td><td>${Number(r.imported_rows||0)} / ${Number(r.total_rows||0)}</td><td>${royaltyEscape(r.currency)} ${Number(r.total_net||0).toFixed(2)}</td><td>${royaltyEscape(r.status)}</td><td>${r.created_at?royaltyEscape(new Date(r.created_at).toLocaleString()):"—"}</td></tr>`).join(""):'<tr><td colspan="6">No hay reportes importados todavía.</td></tr>';
+  msg.textContent=`Consulta completada. ${rows.length} reportes encontrados.`;
+ }catch(e){msg.textContent="No se pudo consultar el historial. Ejecuta primero el SQL de configuración: "+(e.message||"Error");$("royaltyHistoryRows").innerHTML='<tr><td colspan="6">Módulo pendiente de configurar en Supabase.</td></tr>';}
+ finally{$("royaltyRefreshBtn").disabled=false;}
+}
+$("royaltyRefreshBtn")?.addEventListener("click",loadAdminRoyaltyImports);
+
+
+// Centro administrativo de soporte conectado al chat de los artistas.
+let adminSupportCache=[];
+function renderAdminSupport(){
+ const host=$("adminSupportList");if(!host)return;
+ if(!adminSupportCache.length){host.innerHTML='<div class="empty">Todavía no hay solicitudes de soporte.</div>';return;}
+ host.innerHTML=adminSupportCache.map(t=>{
+  const status=String(t.status||"open").toLowerCase();
+  const statusLabel=status==="closed"?"Cerrado":status==="answered"?"Respondido":"Abierto";
+  return `<article class="admin-support-card" data-ticket-id="${escapeHTML(t.id)}">
+   <div class="admin-toolbar"><div><h3>${escapeHTML(t.subject||"Solicitud de soporte")}</h3><span class="status ${status==="closed"?"rejected":status==="answered"?"available":"pending"}">${statusLabel}</span></div><button class="secondary" type="button" data-ticket-conversation>Ver conversación</button></div>
+   <div class="admin-support-meta"><strong>Artista:</strong> ${escapeHTML(t.artist_email||"Correo no disponible")}<br><strong>Fecha:</strong> ${t.created_at?new Date(t.created_at).toLocaleString():"—"}<br><strong>Solicitud:</strong><br>${escapeHTML(t.message||"")}</div>
+   <div class="admin-support-thread" data-ticket-thread hidden><div class="empty">Pulsa “Ver conversación” para cargar los mensajes.</div></div>
+   <label class="small-note">Respuesta al artista</label><textarea data-ticket-reply maxlength="5000" placeholder="Escribe una respuesta clara y profesional..."></textarea>
+   <div class="admin-support-actions"><button class="primary" type="button" data-ticket-action="reply">Enviar respuesta</button><button class="secondary" type="button" data-ticket-action="closed">Cerrar ticket</button><button class="secondary" type="button" data-ticket-action="open">Reabrir ticket</button></div>
+  </article>`;
+ }).join("");
+}
+async function loadAdminSupport(){
+ const msg=$("adminSupportMessage");if(!msg)return;msg.textContent="Consultando solicitudes de soporte...";$("adminRefreshSupport").disabled=true;
+ try{const {data,error}=await supabase.rpc("smilx_admin_list_support_tickets");if(error)throw error;adminSupportCache=Array.isArray(data)?data:[];msg.textContent=`Consulta completada. ${adminSupportCache.length} solicitudes.`;renderAdminSupport();}
+ catch(e){msg.textContent="No se pudieron consultar las solicitudes: "+(e.message||"Error desconocido")+". Ejecuta el SQL actualizado de soporte.";$("adminSupportList").innerHTML='<div class="empty">No se pudo cargar el centro de soporte.</div>';}
+ finally{$("adminRefreshSupport").disabled=false;}
+}
+async function loadAdminSupportMessages(card){
+ const id=card.dataset.ticketId,thread=card.querySelector("[data-ticket-thread]");
+ thread.hidden=false;thread.innerHTML='<div class="empty">Cargando conversación...</div>';
+ try{
+  const {data,error}=await supabase.rpc("smilx_admin_list_support_messages",{p_ticket_id:id});if(error)throw error;
+  if(!Array.isArray(data)||!data.length){thread.innerHTML='<div class="empty">No hay mensajes adicionales. La solicitud inicial aparece arriba.</div>';return;}
+  thread.innerHTML=data.map(m=>`<div class="admin-support-message ${m.sender==="support"?"support":"artist"}"><strong>${m.sender==="support"?"SMILX MUSIC · Soporte":"Artista"}</strong><br>${escapeHTML(m.message||"")}<small>${m.created_at?new Date(m.created_at).toLocaleString():""}</small></div>`).join("");
+ }catch(e){thread.innerHTML=`<div class="empty">No se pudo cargar la conversación: ${escapeHTML(e.message||"Error desconocido")}</div>`;}
+}
+async function handleAdminSupportAction(button){
+ const card=button.closest("[data-ticket-id]");if(!card)return;
+ const id=card.dataset.ticketId,action=button.dataset.ticketAction,reply=card.querySelector("[data-ticket-reply]")?.value.trim()||"";
+ if(action==="reply"&&!reply){alert("Escribe una respuesta antes de enviarla.");return;}
+ if(action==="reply"&&!confirm("¿Enviar esta respuesta al artista? La verá en su chat de soporte."))return;
+ if(action!=="reply"&&!confirm(action==="closed"?"¿Cerrar este ticket?":"¿Reabrir este ticket?"))return;
+ button.disabled=true;
+ try{
+  if(action==="reply"){const {error}=await supabase.rpc("smilx_admin_reply_support_ticket",{p_ticket_id:id,p_message:reply});if(error)throw error;}
+  else {const {error}=await supabase.rpc("smilx_admin_update_support_ticket",{p_ticket_id:id,p_status:action});if(error)throw error;}
+  $("adminSupportMessage").textContent=action==="reply"?"Respuesta enviada al chat del artista.":"Estado del ticket actualizado.";
+  await loadAdminSupport();
+ }catch(e){$("adminSupportMessage").textContent="No se pudo actualizar el ticket: "+(e.message||"Error desconocido");button.disabled=false;}
+}
+$("adminSupportList")?.addEventListener("click",e=>{
+ const conversation=e.target.closest("[data-ticket-conversation]");
+ if(conversation){const card=conversation.closest("[data-ticket-id]");if(card)loadAdminSupportMessages(card);return;}
+ const action=e.target.closest("[data-ticket-action]");if(action)handleAdminSupportAction(action);
+});
+$("adminRefreshSupport")?.addEventListener("click",loadAdminSupport);
+$("adminOpenSupport")?.addEventListener("click",()=>{$("adminSupportSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminSupport();});
+
+
+</script>
+</body>
+</html>
