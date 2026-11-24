@@ -725,7 +725,14 @@ th{color:#69baff}
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SUPABASE_URL = "https://gerybpcdecwsuihwgkhs.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_kNUPrvcdgj00C34SFAyIvg_xDtQghSk";
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+ auth: {
+  persistSession: true,
+  autoRefreshToken: true,
+  detectSessionInUrl: true,
+  storage: window.localStorage
+ }
+});
 async function iniciarSesion(email, password) {
   return await supabase.auth.signInWithPassword({ email, password });
 }
@@ -1623,6 +1630,74 @@ $("adminSupportList")?.addEventListener("click",e=>{
 });
 $("adminRefreshSupport")?.addEventListener("click",loadAdminSupport);
 $("adminOpenSupport")?.addEventListener("click",()=>{$("adminSupportSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminSupport();});
+
+
+// Restaurar automáticamente la sesión guardada al abrir o actualizar la página.
+async function restoreSavedSession(){
+ try{
+  const {data,error}=await supabase.auth.getSession();
+  if(error)throw error;
+  const user=data?.session?.user;
+  if(!user)return;
+  currentUser=user;
+  const {data:adminRow,error:adminError}=await supabase.from("admin_users").select("user_id,role").eq("user_id",user.id).maybeSingle();
+  if(adminError)throw new Error("No pudimos verificar los permisos administrativos. "+adminError.message);
+  const adminRole=String(adminRow?.role||"").toLowerCase();
+  $("publicWelcome").style.display="none";
+  $("login").style.display="none";
+  $("signup").style.display="none";
+  $("openLoginBtn").style.display="none";
+  $("openSignupBtn").style.display="none";
+  $("logout").style.display="inline-block";
+  if(["owner","admin"].includes(adminRole)){
+   $("paymentGate").style.display="none";
+   $("app").style.display="none";
+   $("adminPanel").style.display="block";
+   $("headerEmail").textContent=user.email||"Administración SMILX";
+   $("adminRoleBadge").textContent=adminRole==="owner"?"Propietario · OWNER":"Administrador · ADMIN";
+   await loadAdminArtists();
+   return;
+  }
+  const {data:accountActive,error:accountError}=await supabase.rpc("smilx_is_account_active");
+  if(accountError)throw new Error("No pudimos verificar el estado de tu cuenta. "+accountError.message);
+  if(accountActive===false){
+   await supabase.auth.signOut();currentUser=null;
+   $("logout").style.display="none";
+   showWelcome();
+   showMessage("loginMessage","Tu cuenta está suspendida. Contacta al equipo de SMILX MUSIC.");
+   return;
+  }
+  await completePayPalReturn();
+  const {data:planRow,error:planError}=await supabase.from("smilx_user_plans").select("plan,status").eq("user_id",user.id).maybeSingle();
+  if(planError)throw new Error("No pudimos verificar el estado de tu plan. "+planError.message);
+  const plan=planRow?.plan||"Free",status=planRow?.status||"active";
+  if(plan!=="Free"&&status!=="active"){
+   const prices={Basic:"US$19.90",Label:"US$59","Label Pro":"US$89"};
+   $("paymentGate").style.display="block";
+   $("gateDescription").textContent="El plan "+plan+" está pendiente de confirmación. Completa el pago para desbloquear tu panel.";
+   $("gatePrice").textContent=prices[plan]||"Pago pendiente";
+   return;
+  }
+  $("adminPanel").style.display="none";
+  $("paymentGate").style.display="none";
+  $("app").style.display="block";
+  $("profileEmail").value=user.email||"";
+  $("headerEmail").textContent=user.email||"Cuenta de artista";
+  await loadPlan();
+  await loadReleases();
+  renderStats();
+  await loadSocialLinks();
+  await loadSupportHistory();
+  await loadWithdrawalHistory();
+  await loadArtistRoyaltySummary();
+ }catch(error){
+  console.error("No se pudo restaurar la sesión de SMILX MUSIC:",error);
+  showMessage("loginMessage","No pudimos restaurar tu sesión. Inicia sesión nuevamente por seguridad.");
+ }
+}
+
+// Esperar a que Supabase recupere la sesión antes de mostrar la portada pública.
+restoreSavedSession();
 
 
 </script>
