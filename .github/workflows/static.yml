@@ -1,16 +1,15 @@
 
-# SMILX MUSIC - GitHub Pages Deployment
 name: Deploy SMILX MUSIC
 
 on:
   push:
     branches:
       - main
-
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
