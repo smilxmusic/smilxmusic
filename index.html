@@ -843,7 +843,6 @@ $("signupBtn").addEventListener("click",async()=>{
 
 async function abrirPanelUsuario(user){
  currentUser=user;
-r;
   // Comprobar primero si la cuenta tiene rol administrativo.
   const {data:adminRow,error:adminError}=await supabase.from("admin_users").select("user_id,role").eq("user_id",currentUser.id).maybeSingle();
   if(adminError)throw new Error("No pudimos verificar los permisos administrativos. El acceso se bloqueó por seguridad. "+adminError.message);
@@ -889,21 +888,6 @@ $("loginBtn").addEventListener("click",async()=>{
  }catch(error){showMessage("loginMessage",error.message||"No se pudo iniciar sesión.");}
  finally{$("loginBtn").disabled=false;}
 });
-
-// Recuperar automáticamente la sesión guardada por Supabase al recargar la página.
-(async()=>{
- try{
-  const {data,error}=await supabase.auth.getSession();
-  if(error)throw error;
-  if(data?.session?.user){
-   await abrirPanelUsuario(data.session.user);
-  }
- }catch(error){
-  console.error("No se pudo restaurar la sesión de SMILX MUSIC:",error);
-  currentUser=null;
-  showWelcome();
- }
-})();
 $("gateLogout").addEventListener("click",async()=>{await supabase.auth.signOut();location.reload();});
 $("password").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginBtn").click();});
 $("logout").addEventListener("click",async()=>{await supabase.auth.signOut();location.reload();});
@@ -1643,6 +1627,23 @@ $("adminSupportList")?.addEventListener("click",e=>{
 });
 $("adminRefreshSupport")?.addEventListener("click",loadAdminSupport);
 $("adminOpenSupport")?.addEventListener("click",()=>{$("adminSupportSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminSupport();});
+
+
+// Restaurar la sesión guardada por Supabase al volver a cargar o actualizar la página.
+// Supabase conserva el token de sesión en el almacenamiento local del navegador.
+(async()=>{
+ try{
+  const {data,error}=await supabase.auth.getSession();
+  if(error)throw error;
+  if(data?.session?.user){
+   await abrirPanelUsuario(data.session.user);
+  }
+ }catch(error){
+  console.error("No se pudo restaurar la sesión SMILX MUSIC:",error);
+  currentUser=null;
+  showWelcome();
+ }
+})();
 
 
 </script>
