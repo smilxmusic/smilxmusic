@@ -412,6 +412,13 @@ th{color:#69baff}
   <p class="small-note" id="royaltyHistoryMessage" role="status">Pulsa “Actualizar reportes” para consultar el historial.</p>
   <div class="action-row"><button class="secondary" id="royaltyRefreshBtn" type="button">↻ Actualizar reportes</button></div>
   <div class="table-wrap"><table><thead><tr><th>Archivo</th><th>Período</th><th>Filas</th><th>Neto del reporte</th><th>Estado</th><th>Fecha</th></tr></thead><tbody id="royaltyHistoryRows"><tr><td colspan="6">Todavía no se han consultado reportes.</td></tr></tbody></table></div>
+  <div class="panel" style="margin:18px 0;padding:16px;background:var(--surface,#fff)" id="smilxFraudMonitor">
+   <div class="admin-toolbar"><div><div class="eyebrow">SEGURIDAD · INTEGRIDAD DE REGALÍAS</div><h3>Monitor de reproducciones sospechosas</h3><p class="small-note">Busca saltos estadísticos inusuales comparando reportes importados del mismo artista, lanzamiento y plataforma. Una alerta requiere revisión humana; no demuestra por sí sola que existan bots.</p></div><button class="primary" id="fraudScanBtn" type="button">Analizar reportes</button></div>
+   <p class="small-note" id="fraudScanMessage" role="status">Ejecuta el análisis después de importar reportes oficiales.</p>
+   <div class="admin-stats"><div class="admin-royalty-card"><span class="small-note">Alertas abiertas</span><strong id="fraudOpenCount">—</strong></div><div class="admin-royalty-card"><span class="small-note">En revisión</span><strong id="fraudReviewCount">—</strong></div><div class="admin-royalty-card"><span class="small-note">Confirmadas manualmente</span><strong id="fraudConfirmedCount">—</strong></div></div>
+   <div class="table-wrap"><table><thead><tr><th>Artista</th><th>Plataforma / lanzamiento</th><th>Reproducciones</th><th>Promedio previo</th><th>Motivo</th><th>Estado</th><th>Revisión</th></tr></thead><tbody id="fraudAlertsRows"><tr><td colspan="7">Todavía no se han generado alertas.</td></tr></tbody></table></div>
+   <p class="small-note">Limitación: el análisis usa reportes agregados. Para detectar redes de bots, IP/dispositivos coordinados o reproducciones en tiempo real se necesitan datos detallados y señales oficiales de cada plataforma. Nunca se bloquea ni se retienen regalías automáticamente por una alerta estadística.</p>
+  </div>
   <h3>Reglas de reparto por plan</h3>
   <div class="table-wrap"><table><thead><tr><th>Plan</th><th>Artista</th><th>SMILX MUSIC</th></tr></thead><tbody>
    <tr><td>Free</td><td>80%</td><td>20%</td></tr>
@@ -1460,7 +1467,7 @@ async function updateAdminWithdrawal(id,status,card){
 $("adminWithdrawalsList")?.addEventListener("click",event=>{const button=event.target.closest("[data-withdrawal-status]");if(!button)return;const card=button.closest("[data-withdrawal-id]");if(card)updateAdminWithdrawal(card.dataset.withdrawalId,button.dataset.withdrawalStatus,card);});
 $("adminRefreshWithdrawals")?.addEventListener("click",loadAdminWithdrawals);
 $("adminOpenWithdrawals")?.addEventListener("click",()=>{$("adminWithdrawalsSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminWithdrawals();});
-$("adminOpenRoyalties")?.addEventListener("click",()=>{$("adminRoyaltiesSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminRoyaltyImports();});
+$("adminOpenRoyalties")?.addEventListener("click",()=>{$("adminRoyaltiesSection").scrollIntoView({behavior:"smooth",block:"start"});loadAdminRoyaltyImports();loadFraudAlerts();});
 
 // Importación manual y auditada de reportes CSV oficiales. No modifica el saldo de retiros.
 let royaltyCsvRows=[];
@@ -1533,6 +1540,34 @@ async function loadAdminRoyaltyImports(){
  finally{$("royaltyRefreshBtn").disabled=false;}
 }
 $("royaltyRefreshBtn")?.addEventListener("click",loadAdminRoyaltyImports);
+
+
+// Monitor antifraude: alertas estadísticas, sin sanciones automáticas.
+async function loadFraudAlerts(){
+ const msg=$("fraudScanMessage");if(!msg)return;
+ msg.textContent="Consultando alertas de integridad…";
+ try{
+  const {data,error}=await supabase.rpc("smilx_admin_list_stream_alerts");if(error)throw error;
+  const rows=Array.isArray(data)?data:[];
+  $("fraudOpenCount").textContent=String(rows.filter(r=>r.status==="open").length);
+  $("fraudReviewCount").textContent=String(rows.filter(r=>r.status==="reviewed").length);
+  $("fraudConfirmedCount").textContent=String(rows.filter(r=>r.status==="confirmed_artificial").length);
+  $("fraudAlertsRows").innerHTML=rows.length?rows.map(r=>`<tr><td>${royaltyEscape(r.artist_email||"—")}</td><td>${royaltyEscape((r.platform||"")+" / "+(r.release_title||"Sin título"))}</td><td>${Number(r.current_streams||0).toLocaleString()}</td><td>${Number(r.baseline_avg||0).toLocaleString()}</td><td>${royaltyEscape(r.reason||"")}</td><td>${royaltyEscape(r.status||"open")}</td><td><select data-fraud-status="${royaltyEscape(r.id)}"><option value="open" ${r.status==="open"?"selected":""}>Abierta</option><option value="reviewed" ${r.status==="reviewed"?"selected":""}>En revisión</option><option value="cleared" ${r.status==="cleared"?"selected":""}>Sin anomalía</option><option value="confirmed_artificial" ${r.status==="confirmed_artificial"?"selected":""}>Fraude confirmado</option></select><button class="secondary" type="button" data-fraud-save="${royaltyEscape(r.id)}">Guardar</button></td></tr>`).join(""):'<tr><td colspan="7">No hay alertas. Esto no significa que las reproducciones hayan sido certificadas como legítimas.</td></tr>';
+  msg.textContent=`Consulta completada. ${rows.length} alertas registradas.`;
+ }catch(e){msg.textContent="No se pudieron consultar las alertas. Ejecuta primero el SQL del monitor: "+(e.message||"Error");}
+}
+$("fraudScanBtn")?.addEventListener("click",async()=>{
+ const btn=$("fraudScanBtn"),msg=$("fraudScanMessage");btn.disabled=true;msg.textContent="Analizando reportes importados…";
+ try{const {data,error}=await supabase.rpc("smilx_admin_scan_stream_anomalies");if(error)throw error;const result=Array.isArray(data)?data[0]:data;msg.textContent=`Análisis terminado. ${Number(result?.new_alerts||0)} alertas nuevas; ${Number(result?.checked_rows||0)} filas revisadas.`;await loadFraudAlerts();}
+ catch(e){msg.textContent="No se pudo ejecutar el análisis: "+(e.message||"Error");}
+ finally{btn.disabled=false;}
+});
+$("fraudAlertsRows")?.addEventListener("click",async ev=>{
+ const btn=ev.target.closest("[data-fraud-save]");if(!btn)return;const id=btn.dataset.fraudSave,sel=$("fraudAlertsRows").querySelector(`[data-fraud-status="${CSS.escape(id)}"]`);if(!sel)return;
+ btn.disabled=true;try{const {error}=await supabase.rpc("smilx_admin_update_stream_alert",{p_alert_id:id,p_status:sel.value});if(error)throw error;await loadFraudAlerts();}catch(e){$("fraudScanMessage").textContent="No se pudo guardar la revisión: "+(e.message||"Error");btn.disabled=false;}
+});
+
+
 
 
 // Centro administrativo de soporte conectado al chat de los artistas.
